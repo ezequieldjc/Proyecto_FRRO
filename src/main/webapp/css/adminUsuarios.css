@@ -1,0 +1,24 @@
+.table {
+    width: 93%;
+    text-align: center;
+    padding-bottom: 15%;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main{
+
+}
+
+.enabled {
+    /*color: #22f319;*/
+    color: #000000;
+    font-weight: bold;
+}
+
+.disabled {
+    /*color: #ff0000;*/
+    color: black;
+    font-weight: bold;
+}
