@@ -3,8 +3,9 @@
 <%@ page import="Data.DataPersonaEmpleado" %>
 <%@ page import="Entities.Persona.PersonaEmpleado" %>
 <html>
+<title>Bienvenido jd</title>
 <body>
-<h2>Hello JD!</h2>
+<h2>Hello World!</h2>
 <%
     for (int x =0 ; x<10; x++){
         out.print("hola mundo<br>");
