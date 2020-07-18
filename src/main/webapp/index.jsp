@@ -13,11 +13,6 @@
 
     <a href="login.jsp">Logueate rey!</a>
 
-    <%
-        for (PersonaEmpleado p : new DataPersonaEmpleado().getAll()){
-            out.print(p.getApellido());
-        }
 
-    %>
 </body>
 </html>
