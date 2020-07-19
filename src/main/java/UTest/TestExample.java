@@ -20,4 +20,9 @@ public class TestExample extends TestCase {
         //assertEquals(4,5);
         assertEquals(3,3);
     }
+
+    public void test3(){
+        //assertEquals(4,5);
+        assertEquals(5,5);
+    }
 }
