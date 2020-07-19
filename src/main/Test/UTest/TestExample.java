@@ -1,4 +1,3 @@
-package UTest;
 
 import Data.DataConnectioniMac;
 import Entities.Persona.PersonaEmpleado;
@@ -9,7 +8,6 @@ public class TestExample extends TestCase {
 
     private PersonaEmpleado p;
 
-    @Test
     public void test(){
         assertEquals(4,4);
     }
