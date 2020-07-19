@@ -8,10 +8,6 @@ public class TestExample extends TestCase {
 
     private PersonaEmpleado p;
 
-    public void escenario(){
-        p = new PersonaEmpleado();
-    }
-
     public void test(){
         assertEquals(4,4);
     }
