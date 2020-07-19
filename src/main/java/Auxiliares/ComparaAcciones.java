@@ -9,7 +9,6 @@ public class ComparaAcciones {
 
     public boolean contiene(ArrayList<SistemaAccion> acciones, SistemaAccion a){
         for (SistemaAccion acc: acciones){
-            System.out.println("ainaina");
             if (acc.getId()==a.getId())
                 return true;
         }
