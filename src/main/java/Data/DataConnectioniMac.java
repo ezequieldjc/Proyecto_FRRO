@@ -8,9 +8,16 @@ import com.mysql.jdbc.Driver;
 public class DataConnectioniMac {
     private String driver = "com.mysql.cj.jdbc.Driver";
     //private String driver = "com.mysql.jdbc.Driver";
-    private String host = "35.226.111.155";
+
+    //Google Cloud
+    private String host = "35.247.241.104";
+    private String db = "proyecto-mysql";
+
+    //Local
+    //private String host = "localhost";
+    //private String db = "PROYECTO_JAVA";
+
     private String port = "3306";
-    private String db = "PROYECTO_JAVA";
     private String user = "root";
     private String passowrd = "c3l9s3b7";
     private int conectados = 0;
