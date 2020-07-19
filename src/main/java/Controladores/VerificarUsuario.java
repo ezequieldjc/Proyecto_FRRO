@@ -15,7 +15,9 @@ import java.sql.SQLException;
 public class VerificarUsuario {
 
     public VerificarUsuario(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        String url = req.getRequestURI().split("\\/")[2];
+        System.out.println(req.toString());
+        System.out.println(resp.toString());
+        String url = req.getRequestURI().split("\\/")[1];
         HttpSession session = req.getSession(true);
         PersonaEmpleado e = (PersonaEmpleado) session.getAttribute("empleado");
         if (e==null){

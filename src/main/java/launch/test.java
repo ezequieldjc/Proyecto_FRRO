@@ -1,5 +1,7 @@
 package launch;
 
+import Data.DataGlobalConfig;
+import Data.DataNotificacion;
 import Data.DataPersonaEmpleado;
 import Entities.Persona.PersonaEmpleado;
 
@@ -9,10 +11,13 @@ public class test {
 
     public static void main(String[] args) throws SQLException {
 
-        for (PersonaEmpleado p : new DataPersonaEmpleado().getAll()){
-            System.out.println(p.getApellido());
+        PersonaEmpleado e = new PersonaEmpleado();
+        e.setId(1);
+        //new DataNotificacion().getAllByUsuario(e);
+        //new DataNotificacion().getUnreadByUsuario(e);
+        for (PersonaEmpleado f : new DataPersonaEmpleado().getAll()){
+            System.out.println(f.getCelular());
         }
-
 
 
     }
