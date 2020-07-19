@@ -19,6 +19,6 @@ public class TestExample extends TestCase {
 
     public void test3(){
         //assertEquals(4,5);
-        assertEquals(5,5);
+        assertEquals(8,5);
     }
 }
