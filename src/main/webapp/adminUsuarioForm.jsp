@@ -47,7 +47,7 @@
     session.removeAttribute("bloquearAtributos");
 
 %>
-<div class="wrapper" style="font-family: 'Andale Mono', Fallback, sans-serif;">
+<div class="wrapper" style="font-family: 'Andale Mono', Fallback, sans-serif; overflow-y: hidden;">
     <nav id="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-header image"><a href="menu.jsp"><img src="images/avatar/<%out.print(e.getImg());%>.png" alt="User Image" class="usrImage"></a></div>

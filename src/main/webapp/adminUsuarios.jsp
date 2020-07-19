@@ -41,8 +41,8 @@
     new VerificarUsuario(request,response);
 
 %>
-<div class="wrapper" style="font-family: 'Andale Mono', Fallback, sans-serif;">
-    <nav id="sidebar">
+<div class="wrapper" style="font-family: 'Andale Mono', Fallback, sans-serif; overflow-y: hidden;">
+    <nav id="sidebar" style="overflow-y: visible;">
         <div class="sidebar-header">
             <div class="sidebar-header image"><a href="menu.jsp"><img src="images/avatar/<%out.print(e.getImg());%>.png" alt="User Image" class="usrImage"></a></div>
             <p class="nameAndRol" style="font-family: 'dindin', Fallback, sans-serif;">
@@ -57,7 +57,7 @@
         <%
             FuncionesAuxiliares fa = new FuncionesAuxiliares();
             ArrayList<SistemaBoton> botones = new BuscarBotones().buscarBotones(e);
-            out.println("<ul class=\"list-unstyled components\">");
+            out.println("<ul class=\"list-unstyled components\" style=\"overflow-y: visible;\"> ");
             for (SistemaBoton b : botones) {
                 if (b.getIdPadre()==0 && b.getCollapse()){
                     out.println("<li>");

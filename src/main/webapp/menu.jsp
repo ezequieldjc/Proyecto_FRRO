@@ -62,8 +62,8 @@
     }
 
 %>
-<div class="wrapper" style="font-family: 'Andale Mono', Fallback, sans-serif;">
-    <nav id="sidebar">
+<div class="wrapper" style="font-family: 'Andale Mono', Fallback, sans-serif; overflow-y: hidden;">
+    <nav class="navbar-collapse" id="sidebar" style="overflow-y: visible;" >
         <div class="sidebar-header">
 
             <div class="sidebar-header image"><a href="menu.jsp"><img src="images/avatar/<%out.print(e.getImg());%>.png" alt="User Image" class="usrImage"></a></div>
@@ -74,30 +74,32 @@
             </p>
 
         </div>
-        <%
-            FuncionesAuxiliares fa = new FuncionesAuxiliares();
-            ArrayList<SistemaBoton> botones = new BuscarBotones().buscarBotones(e);
-            out.println("<ul class=\"list-unstyled components\">");
-            for (SistemaBoton b : botones) {
-                if (b.getIdPadre()==0 && b.getCollapse()){
-                    out.println("<li>");
-                    out.println("<a href=\"#"+b.getUrl()+"\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">"+b.getIcon()+"     "+b.getNombre()+"</a>");
-                    out.println("<ul class=\"collapse list-unstyled\" id=\""+b.getUrl()+"\">");
-                    for (SistemaBoton bb : botones){
-                        if (bb.getIdPadre() == b.getId()){
-                            out.println("<li><a href="+bb.getUrl()+">"+bb.getIcon()+"   "+bb.getNombre()+"</a></li>");
+        <div style="overflow-y: hidden;">
+            <%
+                FuncionesAuxiliares fa = new FuncionesAuxiliares();
+                ArrayList<SistemaBoton> botones = new BuscarBotones().buscarBotones(e);
+                out.println("<ul class=\"list-unstyled components\" style=\"overflow-y: visible;\">");
+                for (SistemaBoton b : botones) {
+                    if (b.getIdPadre()==0 && b.getCollapse()){
+                        out.println("<li>");
+                        out.println("<a href=\"#"+b.getUrl()+"\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">"+b.getIcon()+"     "+b.getNombre()+"</a>");
+                        out.println("<ul class=\"collapse list-unstyled\" id=\""+b.getUrl()+"\">");
+                        for (SistemaBoton bb : botones){
+                            if (bb.getIdPadre() == b.getId()){
+                                out.println("<li><a href="+bb.getUrl()+">"+bb.getIcon()+"   "+bb.getNombre()+"</a></li>");
+                            }
                         }
+                        out.println("</ul>");
+                        out.println("</li>");
                     }
-                    out.println("</ul>");
-                    out.println("</li>");
+                    if (!(b.getCollapse())){
+                        if (b.getEnabled())
+                            out.print("<li><a href=\""+b.getUrl()+"\">"+b.getIcon() + " " + b.getNombre() + "</a></li>");
+                    }
                 }
-                if (!(b.getCollapse())){
-                    if (b.getEnabled())
-                        out.print("<li><a href=\""+b.getUrl()+"\">"+b.getIcon() + " " + b.getNombre() + "</a></li>");
-                }
-            }
-            out.println("</ul>");
-        %>
+                out.println("</ul>");
+            %>
+        </div>
     </nav>
     <div class="content" id="contenido">
         <nav class="navbar navbar-expand-lg" >
