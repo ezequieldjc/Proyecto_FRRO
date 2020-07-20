@@ -123,7 +123,7 @@ public class DataSesiones {
                         "on ss.idEmpleado = pe.id " +
                         "where fechaDesde in ( " +
                         "SELECT max(fechaDesde) " +
-                        "FROM PROYECTO_JAVA.sistema_sesion " +
+                        "FROM sistema_sesion " +
                         "group by idEmpleado) ;");
         rs = stmt.executeQuery();
         while (rs.next()){
@@ -158,7 +158,7 @@ public class DataSesiones {
                 "on ss.idEmpleado = pe.id " +
                 "where fechaDesde in ( " +
                 "SELECT max(fechaDesde) " +
-                "FROM PROYECTO_JAVA.sistema_sesion " +
+                "FROM sistema_sesion " +
                 "group by idEmpleado) " + clausula + ";";
         rs = DataConnectioniMac.getInstancia().getConn().prepareStatement(query).executeQuery();
         while (rs.next()){
