@@ -7,11 +7,9 @@
         <error-code>404</error-code>
         <location>/src/main/webapp/404error.jsp</location>
     </error-page>
+
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
+
 </web-app>
