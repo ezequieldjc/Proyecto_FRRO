@@ -4,4 +4,8 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/ezequieldjc/Proyecto_FRRO)](https://github.com/ezequieldjc/Proyecto_FRRO/graphs/contributors)
 
 [Website](https://proyectofrro.herokuapp.com/) | 
-[Documentacion](https://suitecrm.com/demo/) |
+[Documentacion](https://drive.google.com/file/d/1y9j4rLuEYRUr2sRAYqN7_hT-uePWLp5g/view?usp=sharing) |
+
+Credenciales:
+* User: JD99999
+* Pdw: adminadmin
