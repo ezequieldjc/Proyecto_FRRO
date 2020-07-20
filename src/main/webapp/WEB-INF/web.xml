@@ -5,7 +5,7 @@
          version="4.0">
     <error-page>
         <error-code>404</error-code>
-        <location>/404error.jsp</location>
+        <location>/src/main/webapp/404error.jsp</location>
     </error-page>
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
