@@ -15,26 +15,24 @@ import java.sql.SQLException;
 public class VerificarUsuario {
 
     public VerificarUsuario(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        System.out.println(req.toString());
-        System.out.println(resp.toString());
         String url = req.getRequestURI().split("\\/")[1];
         HttpSession session = req.getSession(true);
         PersonaEmpleado e = (PersonaEmpleado) session.getAttribute("empleado");
         if (e==null){
             //response.sendRedirect("login.jsp");
             req.getRequestDispatcher("login.jsp").forward(req, resp);
-        }
-        if (!(new DataSesiones().tieneSesionAbierta(e))){
-            session.invalidate();
-            resp.sendRedirect("login.jsp");
-            //req.getRequestDispatcher("login.jsp").forward(req,resp);
-        }
-        if(!(new TienePaginaPermitida().tienePaginaPermitida(e,new SistemaBoton(url)))){
-            session.setAttribute("paginaNoPermitida", url);
-            req.getRequestDispatcher("login.jsp").forward(req,resp);
-        }
-        e.setNotificaciones(new BuscarNotificaciones().getAllByUsuario(e));
+        } else
+            if (!(new DataSesiones().tieneSesionAbierta(e))){
+                session.invalidate();
+                resp.sendRedirect("login.jsp");
+                //req.getRequestDispatcher("login.jsp").forward(req,resp);
+            } else {
+                if (!(new TienePaginaPermitida().tienePaginaPermitida(e, new SistemaBoton(url)))) {
+                    session.setAttribute("paginaNoPermitida", url);
+                    req.getRequestDispatcher("login.jsp").forward(req, resp);
+                } else
+                    e.setNotificaciones(new BuscarNotificaciones().getAllByUsuario(e));
+            }
     }
-
 
 }

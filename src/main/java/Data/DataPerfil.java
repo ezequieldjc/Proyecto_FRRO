@@ -138,42 +138,13 @@ public class DataPerfil {
             else
                 set += " , idOwner = "+ p.getOwner().getId() ;
         }
-        System.out.println(" owner original: " + pOriginal.getOwner().getId());
-        System.out.println(" owner nuevo: " + p.getOwner().getId());
-        System.out.println(pOriginal.getOwner().getId() == p.getOwner().getId());
-        System.out.println("");
-        System.out.println(" backup original: " + pOriginal.getBackup().getId());
-        System.out.println(" backup nuevo: " + p.getBackup().getId());
-        System.out.println(pOriginal.getBackup().getId() == p.getBackup().getId());
-
         if (pOriginal.getBackup().getId() != p.getBackup().getId()){
             if (p.getBackup().getId()==0)
                 set += " , idBackup = null";
             else
                 set += " , idBackup = "+ p.getBackup().getId() ;
         }
-
-        System.out.println("-----------------------------------------------------------------------------");
-        System.out.println(set);
-        System.out.println("-----------------------------------------------------------------------------");
-
-        System.out.println(p.getId());
-        System.out.println(p.getCodigo());
-        System.out.println(p.getName());
-        System.out.println(p.getDesc());
-        System.out.println(p.getOwner().getId());
-        System.out.println(p.getBackup().getId());
-        for (SistemaBoton b : p.getBotones()){
-            System.out.println(b.getId());
-        }
-        for (SistemaAccion a : p.getAcciones()){
-            System.out.println(a.getId());
-        }
         //String query = "update persona_perfil set codigo = ? where id = ? ";
-
-
-
-
         return p;
     }
 

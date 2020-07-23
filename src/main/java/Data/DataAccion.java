@@ -25,6 +25,8 @@ public class DataAccion {
         while (rs.next()){
                 acciones.add(new SistemaAccion(rs.getInt("id"), rs.getString("codigo"), rs.getString("nombreAccion"), rs.getString("desc")));
         }
+        stmt.close();
+        rs.close();
         if (acciones.isEmpty())
             return null;
 
@@ -46,6 +48,8 @@ public class DataAccion {
         while (rs.next()){
             acciones.add(new SistemaAccion(rs.getInt("sa.id"), rs.getString("sa.codigo"), rs.getString("sa.nombreAccion"), rs.getString("sa.desc")));
         }
+        stmt.close();
+        rs.close();
         return acciones;
     }
 
@@ -65,6 +69,8 @@ public class DataAccion {
         while (rs.next()){
             acciones.add(new SistemaAccion(rs.getInt("sa.id"), rs.getString("sa.codigo"), rs.getString("sa.nombreAccion"), rs.getString("sa.desc")));
         }
+        stmt.close();
+        rs.close();
         return acciones;
     }
 
@@ -82,6 +88,8 @@ public class DataAccion {
         rs = stmt.executeQuery();
         if (rs.next())
             return 1==rs.getInt("loTiene");
+        stmt.close();
+        rs.close();
         return false;
     }
 
@@ -99,6 +107,8 @@ public class DataAccion {
         rs = stmt.executeQuery();
         if (rs.next())
             return 1==rs.getInt("loTiene");
+        stmt.close();
+        rs.close();
         return false;
     }
 
@@ -123,6 +133,8 @@ public class DataAccion {
             //int id, String codigo, String nombre, String desc
             acciones.add(new SistemaAccion(rs.getInt("id"), rs.getString("codigo"), rs.getString("nombreAccion"), rs.getString("desc")));
         }
+        stmt.close();
+        rs.close();
         return acciones;
     }
 
@@ -136,6 +148,8 @@ public class DataAccion {
         while (rs.next()){
             configs.put(rs.getInt("id"), rs.getString("codigo"));
         }
+        stmt.close();
+        rs.close();
         return configs;
     }
 }

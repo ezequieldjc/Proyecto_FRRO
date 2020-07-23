@@ -23,9 +23,10 @@ public class VerificarMenu {
                     session.invalidate();
                     resp.sendRedirect("login.jsp");
                     //request.getRequestDispatcher("login.jsp").forward(request,response);
+                } else {
+                    e.setNotificaciones(new BuscarNotificaciones().getAllByUsuario(e));
                 }
             }
-            e.setNotificaciones(new BuscarNotificaciones().getAllByUsuario(e));
         } catch (SQLException | IOException e){
             e.printStackTrace();
         }

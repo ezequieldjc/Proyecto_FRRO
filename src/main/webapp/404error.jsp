@@ -1,7 +1,9 @@
 <%@ page import="Entities.Notificaciones.Notificacion" %>
 <%@ page import="Entities.Notificaciones.NotificacionCategoria" %>
 <%@ page import="Entities.Persona.PersonaEmpleado" %>
-<%@ page import="Controladores.GrabarNotificacion" %><%--
+<%@ page import="Controladores.GrabarNotificacion" %>
+<%@ page isErrorPage="true" %>
+<%--
   Created by IntelliJ IDEA.
   User: ezequieldjemdjemian
   Date: 23/05/2020
@@ -10,7 +12,6 @@
   <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 --%>
 
-<%@ page isErrorPage="true" %>
 <html>
 <head>
     <title>404 Error!!</title>
