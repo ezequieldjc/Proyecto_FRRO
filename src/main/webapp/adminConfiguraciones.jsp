@@ -11,7 +11,7 @@
 <%@ page import="Controladores.*" %>
 <%@ page import="Entities.System.SistemaGlobalConfig" %>
 <%@ page import="Entities.System.SistemaModulo" %>
-<%@ page errorPage="../../../error-pages/404error.jsp"%>
+<%@ page errorPage="/404error.jsp"%>
 <%--
   Created by IntelliJ IDEA.
   User: ezequieldjemdjemian

@@ -10,7 +10,8 @@
 <%@ page import="java.net.InetAddress" %>
 <%@ page import="javax.naming.Context" %>
 <%@ page import="Controladores.*" %>
-<%@ page import="Entities.System.SistemaGlobalConfig" %><%--
+<%@ page import="Entities.System.SistemaGlobalConfig" %>
+<%@ page errorPage="/404error.jsp"%><%--
   Created by IntelliJ IDEA.
   User: ezequieldjemdjemian
   Date: 24/05/2020

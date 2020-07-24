@@ -1,6 +1,7 @@
 <%@ page import="Controladores.BuscarGlobalConfig" %>
 <%@ page import="Controladores.BuscarGlobalConfig" %>
 <%@ page import="Entities.System.SistemaGlobalConfig" %>
+<%@ page errorPage="/404error.jsp"%>
 <%--
   Created by IntelliJ IDEA.
   User: ezequieldjemdjemian

@@ -170,7 +170,7 @@
                                 </div>
                                 <% for (String png : new BuscarNombresAvatar().buscarPNGNames()) {
                                     out.print("<div class=\"carousel-item\">");
-                                    out.print("<a href=\"cambiarImagen?img="+png+"&usr="+u.getUsuario()+"\"><img class=\"d-block w-100\" src=\"images/avatar/"+png+"\" alt=\"img"+png+".png\"></a>");
+                                    //out.print("<a href=\"cambiarImagen?img="+png+"&usr="+u.getUsuario()+"\"><img class=\"d-block w-100\" src=\"images/avatar/"+png+"\" alt=\"img"+png+".png\"></a>");
                                     out.print("</div>");
                                 }
                                 %>

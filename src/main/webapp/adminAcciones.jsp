@@ -12,7 +12,7 @@
 <%@ page import="Entities.System.SistemaGlobalConfig" %>
 <%@ page import="Entities.System.SistemaModulo" %>
 <%@ page import="Entities.System.SistemaAccion" %>
-<%@ page errorPage="../../../error-pages/404error.jsp"%><%--
+<%@ page errorPage="/404error.jsp"%><%--
   Created by IntelliJ IDEA.
   User: ezequieldjemdjemian
   Date: 04/06/2020

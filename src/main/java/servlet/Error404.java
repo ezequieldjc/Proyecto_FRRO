@@ -1,21 +1,16 @@
 package servlet;
 
 import Controladores.*;
-import Data.DataPersonaEmpleado;
 import Entities.Notificaciones.Notificacion;
 import Entities.Notificaciones.NotificacionCategoria;
 import Entities.Persona.PersonaEmpleado;
-import Entities.System.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
 
 
 @WebServlet("/404error")
@@ -36,7 +31,7 @@ public class Error404 extends HttpServlet{
         n.setPrioridad(2);
         //lo comento pues cada vez que cargo menu.jsp se produce un error 404
         new GrabarNotificacion(n);
-        resp.sendRedirect("../../error-pages/404error.jsp");
+        resp.sendRedirect("404error.jsp");
 
     }
 

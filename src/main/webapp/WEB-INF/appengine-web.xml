@@ -7,6 +7,7 @@
 
   <error-page>
     <error-code>404</error-code>
-    <location>/src/main/webapp/404error.jsp</location>
+    <location>/404error.jsp</location>
+    <location>/404error.jsp</location>
   </error-page>
 </appengine-web-app>

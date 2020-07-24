@@ -15,28 +15,16 @@
 <html>
 <head>
     <title>404 Error!!</title>
-    <%
-        out.print("<link rel=\"icon\" type=\"image/png\" href=\""+ request.getSession(true).getAttribute("icon")+"\"/>");
-    %>
+
 </head>
 
 <body>
 Esta es una pagina de error dea
 <!-- Bootstrap core JavaScript -->
-<%
-    PersonaEmpleado e = (PersonaEmpleado) session.getAttribute("empleado");
-    if (e != null) {
-        out.print("<a href=\"404error\" method=\"get\">Dar aviso del error</a>");
-        out.print("<br>");
-    }
-%>
-<a href="../login.jsp">Login</a>
-<%
-    if (e != null) {
-        out.print("<a href=\"menu.jsp\">Menu</a>");
-        out.print("<br>");
-    }
-%>
+
+<a href="www.facebook.com">Login</a>
+
+
 
 <script src="../js/jquery.min.js"></script>
 <script src="../js/bootstrap.bundle.min.js"></script>
