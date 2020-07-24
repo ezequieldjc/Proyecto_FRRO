@@ -19,10 +19,6 @@ public class test {
 
 
 
-        ArrayList<String> a = new BuscarNombresAvatar().buscarPNGNames();
-        for (String f : a ){
-            System.out.println(f);
-        }
 
 
 

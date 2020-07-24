@@ -7,7 +7,8 @@ public class BuscarNombresAvatar {
 
     public ArrayList<String> buscarPNGNames (){
         ArrayList<String> paths = new ArrayList<String>();
-        String[] pngs = new File("/Users/ezequieldjemdjemian/Documents/PROYECTO_JAVA/web/images/avatar/").list();
+        //String[] pngs = new File("/Users/ezequieldjemdjemian/Documents/PROYECTO_JAVA/web/images/avatar/").list();
+        String[] pngs = new File("src/main/webapp/images/avatar/").list();
         for (String file : pngs) {
             if (file.contains(".png")){
                 paths.add(file);
