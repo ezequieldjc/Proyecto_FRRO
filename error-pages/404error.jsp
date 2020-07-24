@@ -30,7 +30,7 @@ Esta es una pagina de error dea
         out.print("<br>");
     }
 %>
-<a href="login.jsp">Login</a>
+<a href="../login.jsp">Login</a>
 <%
     if (e != null) {
         out.print("<a href=\"menu.jsp\">Menu</a>");
@@ -38,8 +38,8 @@ Esta es una pagina de error dea
     }
 %>
 
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.bundle.min.js"></script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.bundle.min.js"></script>
 
 </body>
 

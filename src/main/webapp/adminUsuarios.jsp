@@ -7,7 +7,8 @@
 <%@ page import="Data.DataPersonaEmpleado" %>
 <%@ page import="Entities.Persona.PersonaPerfil" %>
 <%@ page import="Controladores.*" %>
-<%@ page errorPage="404error.jsp"%><%--
+<%@ page errorPage="../../../error-pages/404error.jsp"%>
+<%--
   Created by IntelliJ IDEA.
   User: ezequieldjemdjemian
   Date: 24/05/2020

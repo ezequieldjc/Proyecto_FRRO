@@ -5,11 +5,12 @@
          version="4.0">
     <error-page>
         <error-code>404</error-code>
-        <location>/src/main/webapp/404error.jsp</location>
+        <location>/error-pages/404error.jsp</location>
     </error-page>
 
+
     <welcome-file-list>
-        <welcome-file>home.jsp</welcome-file>
+        <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
 
 </web-app>
