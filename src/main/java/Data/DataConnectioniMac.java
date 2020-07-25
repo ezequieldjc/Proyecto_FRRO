@@ -23,7 +23,7 @@ public class DataConnectioniMac {
     private int conectados = 0;
     private Connection conn = null;
     private static DataConnectioniMac instancia;
-
+    //el collate que va : utf8mb4_general_ci
     private DataConnectioniMac(){
         try {
             Class.forName(driver);

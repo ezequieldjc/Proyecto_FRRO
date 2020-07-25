@@ -8,13 +8,13 @@
     <name>embeddedTomcatSample Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <properties>
-        <tomcat.version>8.5.23</tomcat.version>
+        <tomcat.version>9.0.37</tomcat.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>${tomcat.version}</version>
+            <version>8.5.23</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -120,15 +120,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
+
         </plugins>
     </build>
 </project>

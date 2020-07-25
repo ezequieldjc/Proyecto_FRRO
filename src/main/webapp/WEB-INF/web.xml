@@ -4,9 +4,8 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     <error-page>
-hero        <location>/src/main/webapp/WEB-INF/4040.html</location>
+        <location>/404error.jsp</location>
     </error-page>
-
 
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
