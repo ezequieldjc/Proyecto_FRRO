@@ -320,5 +320,35 @@ public class DataPersonaEmpleado {
         }
     }
 
+    public void actualizarImagen (PersonaEmpleado e) throws SQLException {
+        String set = " set id = id";
+        if (e.getPerfil().getId()!=0){
+            set += " , idPerfil = "+e.getPerfil().getId();
+        }
+        if(!(e.getTelefono().equals(""))){
+            set += " , telefono = " + e.getTelefono();
+        }
+        if(!(e.getCelular().equals(""))){
+            set += " , celular =  " + e.getCelular();
+        }
+        if (!(e.getEmail().equals(""))){
+            set+= " , email = '" + e.getEmail() + "'";
+        }
+
+        String query = "update persona_empleado set img = ?  where id=? ; ";
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+        try {
+            stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(query);
+            DataConnectioniMac.getInstancia().getConn().setAutoCommit(false);
+            stmt.setString(1, e.getImg());
+            stmt.setInt(2, e.getId());
+            stmt.executeUpdate();
+            DataConnectioniMac.getInstancia().getConn().commit();
+        } catch (SQLException ef){
+            DataConnectioniMac.getInstancia().getConn().rollback();
+        }
+    }
+
 
 }

@@ -25,4 +25,20 @@ public class ActualizarEmpleado {
         return true;
     }
 
+    public void actualizarImagen(PersonaEmpleado pe){
+        try {
+            if (pe.getImg()!=null)
+                new DataPersonaEmpleado().actualizarImagen(pe);
+        }
+        catch (SQLException ef){
+            Notificacion n = new Notificacion();
+            n.setCategoria(new NotificacionCategoria(6));
+            n.setMensaje("Excepcion ocurrida al intentar actualizar la imagen de : " + pe.getUsuario()+" con el valor + " + pe.getImg());
+            n.setResponsable(pe);
+            n.setPrioridad(1);
+            new GrabarNotificacion(n);
+        }
+
+    }
+
 }

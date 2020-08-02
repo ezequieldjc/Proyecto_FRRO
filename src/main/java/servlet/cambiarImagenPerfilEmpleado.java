@@ -16,9 +16,14 @@ public class cambiarImagenPerfilEmpleado extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(true);
         PersonaEmpleado e = (PersonaEmpleado) session.getAttribute("empleado");
-        if (e == null) {
-            req.getRequestDispatcher("login.jsp").forward(req,resp);
-        }
 
+        if (e != null) {
+            String img = (String) req.getParameter("img");
+            if (img!=null){
+                e.setImg(img);
+                new Controladores.ActualizarEmpleado().actualizarImagen(e);
+            }
+        }
+        req.getRequestDispatcher("login.jsp").forward(req,resp);
     }
 }

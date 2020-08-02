@@ -50,7 +50,6 @@
     PersonaEmpleado e = (PersonaEmpleado) session.getAttribute("empleado");
     if (e == null) {
         request.getRequestDispatcher("login.jsp").forward(request,response);
-
     } else {
         if (!(new DataSesiones().tieneSesionAbierta(e))) {
             session.invalidate();
@@ -66,7 +65,7 @@
     <nav class="navbar-collapse" id="sidebar" style="overflow-y: visible;" >
         <div class="sidebar-header">
 
-            <div class="sidebar-header image"><a href="menu.jsp"><img src="images/avatar/<%out.print(e.getImg());%>.png" alt="User Image" class="usrImage"></a></div>
+            <div class="sidebar-header image"><a href="menu.jsp"><img src="images/avatar/<%out.print(e.getImg());%>" alt="User Image" class="usrImage"></a></div>
             <p class="nameAndRol" style="font-family: 'dindin', Fallback, sans-serif;">
                 <%
                     out.println(e.getApellido() + ", " + e.getNombre() + " - " + e.getUsuario() + " -@" + e.getPerfil().getName());
@@ -148,7 +147,7 @@
                 String destino = (String) session.getAttribute("paginaNoPermitida");
                 if (destino != null) { %>
             <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
-                <strong>Pagina no permitida!</strong> No tienes acceso a adminUsuarios.jsp<br>
+                <strong>Pagina no permitida!</strong> No tienes acceso a <%out.print(destino);%>><br>
                 Se ha enviado una solicitud a Sistemas. Deseas enviarles un email? Hace click <a href="#" class="alert-link">   aqui</a>.
 
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">

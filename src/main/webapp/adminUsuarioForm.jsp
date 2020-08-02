@@ -50,7 +50,7 @@
 <div class="wrapper" style="font-family: 'Andale Mono', Fallback, sans-serif; overflow-y: hidden;">
     <nav id="sidebar">
         <div class="sidebar-header">
-            <div class="sidebar-header image"><a href="menu.jsp"><img src="images/avatar/<%out.print(e.getImg());%>.png" alt="User Image" class="usrImage"></a></div>
+            <div class="sidebar-header image"><a href="menu.jsp"><img src="images/avatar/<%out.print(e.getImg());%>" alt="User Image" class="usrImage"></a></div>
             <p class="nameAndRol" style="font-family: 'dindin', Fallback, sans-serif;">
                 <%
                     out.println(e.getApellido() + ", " + e.getNombre() + " - " + e.getUsuario() + " -@" + e.getPerfil().getName());
@@ -166,11 +166,11 @@
                             </ol>
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img class="d-block w-100" src="images/avatar/<%out.print(u.getImg());%>.png"  alt="Third slide">
+                                    <img class="d-block w-100" src="images/avatar/<%out.print(u.getImg());%>"  alt="Third slide">
                                 </div>
                                 <% for (String png : new BuscarNombresAvatar().buscarPNGNames()) {
                                     out.print("<div class=\"carousel-item\">");
-                                    //out.print("<a href=\"cambiarImagen?img="+png+"&usr="+u.getUsuario()+"\"><img class=\"d-block w-100\" src=\"images/avatar/"+png+"\" alt=\"img"+png+".png\"></a>");
+                                    out.print("<a href=\"cambiarImagen?img="+png+"&usr="+u.getUsuario()+"\"><img class=\"d-block w-100\" src=\"images/avatar/"+png+"\" alt=\"img"+png+".png\"></a>");
                                     out.print("</div>");
                                 }
                                 %>
