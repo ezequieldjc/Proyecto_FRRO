@@ -29,8 +29,8 @@ public class LimpiarSesion extends HttpServlet {
                 if (new TieneAccionPermitida().tieneAccionPermitida(e, new SistemaAccion("CLS"))) {
                     new ManejoSesiones().limpiarSesion(e);
                     session.setAttribute("sesionLimpiada",true);
-                    req.getRequestDispatcher("login.jsp").forward(req, resp);
                 }
+                req.getRequestDispatcher("login.jsp").forward(req, resp);
             } catch (SQLException ef){
                 ef.printStackTrace();
             }

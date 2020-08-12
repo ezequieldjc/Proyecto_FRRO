@@ -39,7 +39,6 @@ public class login extends HttpServlet  {
                     resp.sendRedirect("login.jsp");
                 } else {
                     //usuario encontrado
-
                     if (e.getEstado()) {
                         //Si existe, y esta habilidato
                         flag = true;

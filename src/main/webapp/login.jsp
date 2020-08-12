@@ -128,7 +128,7 @@
                             <div class="card">
                                 <div class="card-header">Identifiquese</div>
                                 <div class="card-body">
-                                    <form action="../java/servlet/LimpiarSesion.java" method="post">
+                                    <form action="limpiarSesion" method="post">
                                         <div class="form-group row">
                                             <label for="email_address" class="col-md-4 col-form-label text-md-right">Username</label>
                                             <div class="col-md-6">

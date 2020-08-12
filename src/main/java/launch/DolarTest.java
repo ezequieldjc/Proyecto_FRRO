@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class test {
+public class DolarTest {
 
     public static void main(String[] args) throws SQLException {
 

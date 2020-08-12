@@ -22,7 +22,7 @@
 Esta es una pagina de error dea
 <!-- Bootstrap core JavaScript -->
 
-<a href="www.facebook.com">Login</a>
+<a href="login.jsp">Login</a>
 
 
 

@@ -82,9 +82,9 @@ public class DataAccion {
                         "from sistema_accion sa " +
                         "inner join sistema_perfil_accion spa " +
                         "on sa.id = spa.idAccion " +
-                        "where spa.idPerfil = ? and sa.id = ?");
+                        "where spa.idPerfil = ? and sa.codigo = ?");
         stmt.setInt(1, e.getPerfil().getId());
-        stmt.setInt(2, a.getId());
+        stmt.setString(2, a.getCodigo());
         rs = stmt.executeQuery();
         if (rs.next())
             return 1==rs.getInt("loTiene");

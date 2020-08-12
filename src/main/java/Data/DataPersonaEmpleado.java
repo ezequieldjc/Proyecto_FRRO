@@ -350,5 +350,19 @@ public class DataPersonaEmpleado {
         }
     }
 
+    public boolean userIDdisponible (PersonaEmpleado e) throws SQLException{
+        //Verifico si el user esta disponible. Si lo esta -> true. Sino -> false.
+        PreparedStatement stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(
+                "select count(*) cantidad from persona_empleado where usuario = ? ");
+        stmt.setString(1,e.getUsuario());
+
+        ResultSet rs = stmt.executeQuery();
+        rs.next();
+
+        return rs.getInt("cantidad")==0;
+
+
+    }
+
 
 }
