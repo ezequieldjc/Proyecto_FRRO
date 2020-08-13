@@ -1,6 +1,8 @@
 package launch;
 
+import Controladores.Economy.Dolar_Operations;
 import Data.DataPersonaEmpleado;
+import Entities.Economy.DolarValue;
 import Entities.Persona.PersonaDocumento;
 import Entities.Persona.PersonaEmpleado;
 import Entities.Persona.PersonaPerfil;
@@ -8,6 +10,7 @@ import Entities.System.SistemaMensaje;
 import Entities.System.SistemaModulo;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class TestInserUser {
@@ -45,6 +48,7 @@ public class TestInserUser {
         System.out.println(sqlDate);
 
         */
+
 
 
     }
