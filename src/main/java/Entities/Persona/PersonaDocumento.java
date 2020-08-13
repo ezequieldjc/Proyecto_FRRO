@@ -20,6 +20,16 @@ public class PersonaDocumento {
         this.codigo = codigo;
     }
 
+    public PersonaDocumento(String codigo, String numero){
+        this.codigo = codigo;
+        this.numero = numero;
+    }
+
+    public PersonaDocumento(int id , String numero){
+        this.id = id;
+        this.numero=numero;
+    }
+
     public PersonaDocumento(int id, String codigo, String nombre, String desc, String numero) {
         this.id = id;
         this.codigo = codigo;

@@ -27,4 +27,13 @@ public class BuscarPerfiles {
             return null;
         }
     }
+
+    public PersonaPerfil getOneByID(PersonaPerfil p){
+        try{
+            return new DataPerfil().getOneByID(p);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
 }

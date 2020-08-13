@@ -174,6 +174,38 @@
             %>
 
             <%
+                String errorUsuarios = (String) session.getAttribute("NOnuevoUsuarioCreadoCorrectamente");
+                if (errorUsuarios != null) { %>
+            <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                <strong>No se ha podido crear el usuario!</strong> <br>
+                Se ha enviado una solicitud a Sistemas. Deseas enviarles un email? Hace click <a href="#" class="alert-link">aqui</a>.
+
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <%      session.removeAttribute("NOnuevoUsuarioCreadoCorrectamente");
+            }
+            %>
+
+            <%
+                PersonaEmpleado nuevoUsuario = (PersonaEmpleado) session.getAttribute("nuevoUsuarioCreadoCorrectamente");
+                if (nuevoUsuario != null) { %>
+            <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                <strong>Usuario creado Correctamente!</strong> Se ha creado al usuario <%out.print(nuevoUsuario.getUsuario());%><br>
+                Su contrasena es <%out.print(new HashearPassword().unHidePwd(nuevoUsuario.getPass()));%>. <br>
+                Su nuevo email es <%out.print(nuevoUsuario.getEmail());%>.<br>
+                El usuario debera cambiar su contrasena en el primer inicio de sesion.
+
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <%      session.removeAttribute("nuevoUsuarioCreadoCorrectamente");
+            }
+            %>
+
+            <%
                 String usuario = (String) session.getAttribute("usuarioNoEncontrado");
                 if (usuario != null) { %>
             <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">

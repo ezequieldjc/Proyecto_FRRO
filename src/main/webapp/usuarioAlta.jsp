@@ -129,37 +129,22 @@
         <div class="main text-center justify-content-center" style="overflow-y: scroll;">
             <h1 style="margin-bottom: 2%">Registro de Usuario</h1>
             <%
-                String error = (String) session.getAttribute("ABMIncorrecta");
-                if (error != null) { %>
+                String error = (String) session.getAttribute("FNacimientoIncorrecta");
+                if (error != null) {
+            %>
             <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
-                <strong>Usuario no encontrado!</strong> <%out.print(error);%><br>
-                Se ha enviado un aviso a Sistemas. Deseas, igualmente, enviarles un email? Hace click <a href="#" class="alert-link">aqui</a>.
-
+                <strong>Fecha incorrecta!</strong> <%out.print(error);%><br>
+                El formato de fecha no coincide con el esperado. Vuelva a intentarlo.
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <%      session.removeAttribute("ABMIncorrecta");
+            <%      session.removeAttribute("FNacimientoIncorrecta");
             }
             %>
-            <%
-                String accion = (String) session.getAttribute("accionNoPermitida");
-                if (accion != null) { %>
-            <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
-                <strong>Acicon no permitida!</strong> No tienes permiso para <%out.print(accion);%><br>
-                Se ha enviado una solicitud a Sistemas. Deseas enviarles un email? Hace click <a href="#" class="alert-link">aqui</a>.
-
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <%      session.removeAttribute("accionNoPermitida");
-            }
-            %>
-
 
             <div class="row text-center justify-content-center">
-                <div style="margin-left: 3%">
+                <div class="col-lg-11 col-11" style="margin-left: 3%">
                     <form action="registrarUsuario" method="post">
                         <div class="row justify-content-center center-block" style="text-align: center;margin-top: 3%;" >
                             <div class="input-group col-4">
@@ -183,9 +168,9 @@
                                     <%
                                         for (Map.Entry<Integer, String> en : new BuscarPerfiles().getHashID().entrySet() ){
                                             if (en.getKey() == u.getPerfil().getId())
-                                                out.print("<option value=\"" + en.getKey()+ "\" selected>" + en.getKey() + "- " + en.getValue() + "</option>");
+                                                out.print("<option value=\"" + en.getKey()+ "\" selected>" + en.getKey() + " - " + en.getValue() + "</option>");
                                             else
-                                                out.print("<option value=\"" + en.getKey()+ "\">" + en.getKey() + "- " + en.getValue() + "</option>");
+                                                out.print("<option value=\"" + en.getKey()+ "\">" + en.getKey() + " - " + en.getValue() + "</option>");
                                         }
                                     %>
                                 </select>
@@ -194,7 +179,7 @@
 
                         </div>
                         <div class="row justify-content-center center-block" style="text-align: center;margin-top: 3%;">
-                            <div class="input-group col-3">
+                            <div class="input-group col-4">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="documento">Tipo Doc</label>
                                 </div>
@@ -202,7 +187,7 @@
 
                                     <%
                                         for (PersonaDocumento d : new BuscarTipoDoc().getAll()) {
-                                            out.print("<option value=\"" + d.getId() + "\">" + d.getId() + "-"+ d.getCodigo() + "</option>");
+                                            out.print("<option value=\"" + d.getId() + "\">" + d.getId() + " - "+ d.getCodigo() + "</option>");
                                         }
                                     %>
                                 </select>
@@ -213,7 +198,7 @@
                                 </div>
                                 <input type="text" class="form-control" value="" name="inputNroDoc" id="inputNroDoc" required>
                             </div>
-                            <div class="input-group col-5">
+                            <div class="input-group col-4">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputFNacimiento">Fecha de Nacimiento</label>
                                 </div>
@@ -235,10 +220,10 @@
                             </div>
                             <div class="input-group col-4">
                                     <div class="input-group-prepend">
-                                        <label class="input-group-text" for="inputImg">Perfil</label>
+                                        <label class="input-group-text" for="inputImg">Imagen</label>
                                     </div>
                                     <select class="custom-select" id="inputImg" name="inputImg" required>
-
+                                        <option value="" selected>None</option>
                                         <%
                                             for (String png : new BuscarNombresAvatar().buscarPNGNames()) {
                                                 out.print("<option value=\"" + png + "\">" + png + "</option>");
@@ -248,14 +233,18 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-end" style=" margin-top: 3%">
+
                             <button class="btn btn-success" type="submit" ><i class="fas fa-save"></i> Generar</button>
                             <input type="text" class="form-control" value="<%out.print(e.getUsuario());%>" name="usrusr" id="usrusr" hidden>
                         </div>
                     </form>
                 </div>
-                <h6 class="text-right">El usuario e email seran generados automaticamente</h6>
             </div>
 
+
+            <div class="row text-center justify-content-center fixed-bottom" style="margin-bottom: 2%;">
+                <h6 class="text-right" style="color: #0062cc">El usuario, email y pwd seran autogenerados. La pwd debera ser modificada en el primer inicio</h6>
+            </div>
 
         </div>
     </div>

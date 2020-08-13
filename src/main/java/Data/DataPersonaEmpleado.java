@@ -9,10 +9,7 @@ import Entities.Persona.PersonaEmpleado;
 
 import javax.xml.crypto.Data;
 import javax.xml.transform.Result;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -83,7 +80,7 @@ public class DataPersonaEmpleado {
             e.setNombre(rs.getString("e.nombre"));
             e.setApellido(rs.getString("e.apellido"));
             e.setTelefono(rs.getString("e.telefono"));
-            e.setCelular(rs.getString("e.telefono"));
+            e.setCelular(rs.getString("e.celular"));
             e.setEmail(rs.getString("e.email"));
             e.setFechaNacimiento(null);
             e.setEstado(rs.getBoolean("e.estado"));
@@ -293,15 +290,16 @@ public class DataPersonaEmpleado {
     }
 
     public void actualizar (PersonaEmpleado e) throws SQLException {
+
         String set = " set id = id";
         if (e.getPerfil().getId()!=0){
             set += " , idPerfil = "+e.getPerfil().getId();
         }
         if(!(e.getTelefono().equals(""))){
-            set += " , telefono = " + e.getTelefono();
+            set += " , telefono = '" + e.getTelefono()+"'";
         }
         if(!(e.getCelular().equals(""))){
-            set += " , celular =  " + e.getCelular();
+            set += " , celular =  '" + e.getCelular()+"'";
         }
         if (!(e.getEmail().equals(""))){
             set+= " , email = '" + e.getEmail() + "'";
@@ -310,12 +308,15 @@ public class DataPersonaEmpleado {
         String query = "update persona_empleado " + set + " where id="+e.getId()+"; ";
         ResultSet rs = null;
         PreparedStatement stmt = null;
+        System.out.println(query);
         try {
             stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(query);
             DataConnectioniMac.getInstancia().getConn().setAutoCommit(false);
             stmt.executeUpdate();
             DataConnectioniMac.getInstancia().getConn().commit();
         } catch (SQLException ef){
+
+            ef.printStackTrace();
             DataConnectioniMac.getInstancia().getConn().rollback();
         }
     }
@@ -362,6 +363,51 @@ public class DataPersonaEmpleado {
         return rs.getInt("cantidad")==0;
 
 
+    }
+
+    public PersonaEmpleado ingresarUsuario(PersonaEmpleado e) throws SQLException{
+
+        PreparedStatement stmt = null;
+        try {
+            stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(
+                    "INSERT INTO `proyecto-mysql`.`persona_empleado` " +
+                            "(`idPerfil`,`idTipoDocumento`,`usuario`,`nroDocumento`,`nombre`,`apellido`,`celular`,`telefono`,`email`,`fechaNacimiento`,`estado`,`img`) " +
+                            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?); "
+                    , PreparedStatement.RETURN_GENERATED_KEYS);
+            stmt.setInt(1,e.getPerfil().getId());
+            stmt.setInt(2,e.getDoc().getId());
+            stmt.setString(3,e.getUsuario());
+            stmt.setString(4,e.getDoc().getNumero());
+            stmt.setString(5,e.getNombre());
+            stmt.setString(6,e.getApellido());
+            stmt.setString(7,e.getCelular());
+            stmt.setString(8,e.getTelefono());
+            stmt.setString(9,e.getEmail());
+            stmt.setDate(10, new java.sql.Date(e.getFechaNacimiento().getTime()));
+            stmt.setBoolean(11,true);
+            stmt.setString(12,e.getImg());
+            stmt.executeUpdate();
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs != null && rs.next()) {
+                e.setId(rs.getInt(1));
+                System.out.println("ID del generatedkey"+ e.getId());
+            }
+            this.registrarPassword(e);
+        } catch (SQLException ef) {
+            ef.printStackTrace();
+        }
+        return e;
+    }
+
+    public void registrarPassword (PersonaEmpleado e) throws SQLException{
+        PreparedStatement stmt = null;
+        stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(
+                    "INSERT INTO `proyecto-mysql`.`persona_contrasena` (`idEmpleado`,`password`,`esActual`) " +
+                            " VALUES (?,?,true); ");
+        stmt.setInt(1, e.getId());
+        stmt.setString(2, e.getPass());
+        stmt.executeUpdate();
     }
 
 

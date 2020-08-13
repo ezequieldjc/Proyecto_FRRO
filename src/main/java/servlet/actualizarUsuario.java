@@ -38,6 +38,7 @@ public class actualizarUsuario extends HttpServlet {
             String celular = req.getParameter("inputCelular");
             String telefono = req.getParameter("inputTelefono");
             String usuario = req.getParameter("inputUser");
+
             int idUsuario = Integer.parseInt(req.getParameter("inputID"));
             PersonaEmpleado pe = new PersonaEmpleado(idUsuario, usuario);
             pe.setPerfil(new PersonaPerfil(idPerfil));
