@@ -18,11 +18,20 @@
 
 </head>
 
-<body>
-Esta es una pagina de error dea
+<body style="background: #cbd3da">
+<h1 class="text-center lnr-text-align-center">404 Error!</h1>
+404 - Esta es una pagina de Error!
 <!-- Bootstrap core JavaScript -->
+<br>
 
-<a href="login.jsp">Login</a>
+<%
+    PersonaEmpleado e = (PersonaEmpleado) session.getAttribute("empleado");
+    if (e==null)
+        out.print("<a href=\"login.jsp\">Go to Login</a>");
+    else
+        out.print("<a href=\"menu.jsp\">Go to Menu</a>");
+
+%>
 
 
 
