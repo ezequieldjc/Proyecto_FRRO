@@ -71,5 +71,24 @@ public class Dolar_Operations {
         }
     }
 
+    public ArrayList<DolarValue> getAll(){
+
+        try {
+            return new DataEconomyDolar().getAll();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public ArrayList<DolarValue> getLast500(){
+
+        try {
+            return new DataEconomyDolar().getLast500();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
 
 }
