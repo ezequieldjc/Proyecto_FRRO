@@ -6,13 +6,14 @@
 <%@ page import="Auxiliares.FuncionesAuxiliares" %>
 <%@ page import="Data.DataPersonaEmpleado" %>
 <%@ page import="Entities.Persona.PersonaPerfil" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="Entities.System.SistemaSesiones" %>
-<%@ page import="Controladores.*" %><%--
+<%@ page import="Controladores.*" %>
+<%@ page errorPage="/404error.jsp"%>
+
+<%--
   Created by IntelliJ IDEA.
   User: ezequieldjemdjemian
-  Date: 29/05/2020
-  Time: 18:10
+  Date: 24/05/2020
+  Time: 16:28
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -21,17 +22,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Sesiones</title>
+    <%
+        out.print("<link rel=\"icon\" type=\"image/png\" href=\""+ request.getSession(true).getAttribute("icon")+"\"/>");
+    %>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
     <link rel="stylesheet" type="text/css" href="css/menu.css"/>
     <link rel="stylesheet" href="css/adminUsuarios.css">
+    <link rel="stylesheet" href="css/table.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-    <%
-        out.print("<link rel=\"icon\" type=\"image/png\" href=\""+ request.getSession(true).getAttribute("icon")+"\"/>");
-    %>
+
+    <title>Usuarios</title>
 </head>
 <body>
 <%
@@ -41,7 +44,7 @@
 
 %>
 <div class="wrapper" style="font-family: 'Andale Mono', Fallback, sans-serif; overflow-y: hidden;">
-    <nav id="sidebar">
+    <nav id="sidebar" style="overflow-y: visible;">
         <div class="sidebar-header">
             <div class="sidebar-header image"><a href="menu.jsp"><img src="images/avatar/<%out.print(e.getImg());%>" alt="User Image" class="usrImage"></a></div>
             <p class="nameAndRol" style="font-family: 'dindin', Fallback, sans-serif;">
@@ -56,7 +59,7 @@
         <%
             FuncionesAuxiliares fa = new FuncionesAuxiliares();
             ArrayList<SistemaBoton> botones = new BuscarBotones().buscarBotones(e);
-            out.println("<ul class=\"list-unstyled components\">");
+            out.println("<ul class=\"list-unstyled components\" style=\"overflow-y: visible;\"> ");
             for (SistemaBoton b : botones) {
                 if (b.getIdPadre()==0 && b.getCollapse()){
                     out.println("<li>");
@@ -120,49 +123,51 @@
         </nav>
 
         <div class="main text-center" style="overflow-y: scroll;">
-            <h1 style="margin-bottom: 3%">Sesiones</h1>
+            <h1 style="margin-bottom: 3%">Listado de Usuarios</h1>
             <%
-                String idUsuario="";
-                String inputNyA="";
-                String status="";
-                if (request.getParameter("idUsuario")!=null)
-                    idUsuario = request.getParameter("idUsuario");
+                String id="";
+                String perfil="";
+                String estado="";
+                if (request.getParameter("inputID")!=null)
+                    id = request.getParameter("inputID");
 
-                if (request.getParameter("inputNyA")!=null)
-                    inputNyA = request.getParameter("inputNyA");
+                if (request.getParameter("inputProfile")!=null)
+                    perfil = request.getParameter("inputProfile");
 
                 if (request.getParameter("inputStatus")!=null)
-                    status = request.getParameter("inputStatus");
+                    estado = request.getParameter("inputStatus");
             %>
-            <form name = "filterForm" method="post" action="adminSesiones.jsp" style="margin-bottom:2%" >
+            <form name = "filterForm" method="get" action="usuarios.jsp" style="margin-bottom:2%" >
                 <div class="row col-sm-12 justify-content-center" >
+                    <div class="col-sm-1"><p> </p></div>
+                    <div class="input-group col-sm-2" style="margin-left: 3%;">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputID">User</label>
+                        </div>
+                        <input type="text" class="form-control" placeholder="all" name="inputID" id="inputID" >
+                    </div>
                     <div class="input-group col-sm-2">
                         <div class="input-group-prepend">
-                            <label class="input-group-text" for="idUsuario">Usuario</label>
+                            <label class="input-group-text" for="inputProfile">Perfil</label>
                         </div>
-                        <select class="custom-select" id="idUsuario" name="idUsuario" >
+                        <select class="custom-select" id="inputProfile" name="inputProfile" >
                             <option value="" selected>all</option>>
                             <%
-                                for (Map.Entry<Integer, String> en : new DataPersonaEmpleado().getAllNombresUsuarios().entrySet() ){
-                                    out.print("<option value=\"" + en.getKey()+ "\">" + en.getKey() + "- " + en.getValue() + "</option>");
+
+                                for (PersonaPerfil p : new DataPersonaEmpleado().getAllPerfiles()) {
+                                    out.print("<option value=\"" + p.getId() + "\">" + p.getId() + "- " + p.getName() + "</option>");
                                 }
                             %>
                         </select>
                     </div>
-                    <div class="input-group col-sm-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputNyA">Nombre</label>
-                        </div>
-                        <input type="text" class="form-control" placeholder="all" name="inputNyA" id="inputNyA" >
-                    </div>
-                    <div class="input-group col-sm-2 text-center">
+                    <div class="input-group col-sm-2 text-center" style="margin-left: 3%;">
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="inputStatus">Estado</label>
                         </div>
                         <select class="custom-select" id="inputStatus" name="inputStatus">
                             <option value="" selected>all</option>
-                            <option value="1">Abierta</option>
-                            <option value="2">Cerrada</option>
+                            <option value="1">Habilitado</option>
+                            <option value="2">Deshabilitado</option>
                         </select>
                     </div>
                     <input type="submit" value="Filtrar" class="btn btn-primary" style="margin-left: 3%; ">
@@ -176,44 +181,46 @@
                         <th scope="col">#</th>
                         <th scope="col">Usuario</th>
                         <th scope="col">Nombre y Apellido</th>
-                        <th scope="col">Fecha de Inicio</th>
-                        <th scope="col">Fecha de Cierre</th>
-                        <th scope="col">Duracion</th>
+                        <th scope="col">Perfil</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Telefono</th>
                         <th scope="col">Estado</th>
-                        <th scope="col">Invalidar</th>
+                        <th scope="col" colspan="2">Accion</th>
                     </tr>
                     </thead>
                     <tbody>
-
-                    <%
+                        <%
                         int idd=1;
-                        for (SistemaSesiones s : new BuscarSesiones().buscarSesiones(idUsuario,inputNyA,status)) {
-                            if (s.getEmpleado().getId()==(e.getId()) || s.getEmpleado().getUsuario().equals("ADMIN")){
-                                if(s.getEmpleado().getId()==(e.getId()))
-                                    out.print("<tr class=\"table-success\">");
+                        for (PersonaEmpleado emp : new BuscarEmpleado().buscarEmpleados(id, perfil, estado)){
+                                if (emp.getId()==(e.getId()) || emp.getUsuario().equals("ADMIN")){
+                                    if(emp.getId()==(e.getId()))
+                                        out.print("<tr class=\"table-success\">");
+                                    else
+                                        out.print("<tr class=\"table-primary\">");
+                                }
                                 else
-                                    out.print("<tr class=\"table-primary\">");
-                            }
-                            else
-                                out.print("<tr>");
-                            out.print("<th scope=\"row\">"+idd+"</th>");
-                            out.print("<td>"+s.getEmpleado().getUsuario()+"</td>");
-                            out.print("<td>"+s.getEmpleado().getNombre() +","+s.getEmpleado().getApellido() +"</td>");
-                            out.print("<td>"+s.getFechaDesde()+"</td>");
+                                    out.print("<tr>");
+                                out.print("<th scope=\"row\">"+idd+"</th>");
+                                out.print("<td>"+emp.getUsuario()+"</td>");
+                                out.print("<td>"+emp.getNombre() +","+emp.getApellido() +"</td>");
+                                out.print("<td>"+emp.getPerfil().getCodigo() +" - " +emp.getPerfil().getName() +"</td>");
+                                out.print("<td>"+emp.getEmail()+"</td>");
+                                out.print("<td>"+emp.getCelular()+"</td>");
+                                if (emp.getEstado())
+                                    out.print("<td> <span class=\"badge badge-pill badge-success\">Habilitado</span></td>");
+                                else
+                                    out.print("<td> <span class=\"badge badge-pill badge-danger\">Desabilitado</span></td>");
 
-                            if (s.getFechaHasta()!=null){
-                                out.print("<td>"+s.getFechaHasta()+"</td>");
-                                int x = (int) ((s.getFechaHasta().getTime() - s.getFechaDesde().getTime())/(60*1000));
-                                out.print("<td> "+x + " minutos" +" </td>");
-                            } else {
-                                out.print("<td> null </td>");
-                                out.print("<td> null </td>");
-                            }
+                                out.print("<form name=\"usr\" method=\"get\" action=\"usuarioModificacion.jsp\">");
+                                out.print("<input type=\"hidden\" name=\"usr\" value=\""+emp.getUsuario()+"\">");
+                                out.print("<td><button class=\"btn btn-info\"><i class=\"fas fa-user-edit\"></i> </button></td>");
+                                out.print("</form>");
+                                if (emp.getEstado())
+                                    out.print("<td><button class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#CambiarEstado"+emp.getUsuario()+"\" data-usr=\"usuario\"><i class=\"fas fa-user-plus\"></i> </button></td>");
+                                else
+                                    out.print("<td><button class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#CambiarEstado"+emp.getUsuario()+"\" data-usr=\"usuario\"><i class=\"fas fa-user-plus\"></i> </button></td>");
 
-                            if (s.getFechaHasta()==null) {
-                                out.print("<td> <span class=\"badge badge-pill badge-success\">Online</span></td>");
-                                out.print("<td><button class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#CambiarEstado"+s.getId()+"\" data-usr=\"usuario\"><i class=\"fas fa-user-times\"></i> </button></td>");
-                                out.print("<div class=\"modal fade\" id=\"CambiarEstado"+s.getId()+"\">");
+                                out.print("<div class=\"modal fade\" id=\"CambiarEstado"+emp.getUsuario()+"\">");
                                 out.print("<div class=\"modal-dialog\">");
                                 out.print("<div class=\"modal-content\">");
                                 out.print("<div class=\"modal-header\">");
@@ -221,31 +228,22 @@
                                 out.print("<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>");
                                 out.print("</div>");
                                 out.print("<div class=\"modal-body\">");
-                                out.print("Desea cerrar la sesion del usuario "+s.getEmpleado().getUsuario()+"?");
+                                out.print("Desea cambiar el estado del usuario "+emp.getUsuario()+"?");
                                 out.print("</div>");
                                 out.print("<div class=\"modal-footer\">");
-                                out.print("<form action=\"cerrarSesion\" method=\"get\">");
-                                out.print("<input type=\"hidden\" name=\"usr\" value=\""+s.getEmpleado().getUsuario()+"\">");
+                                out.print("<form action=\"cambiarEstado\" method=\"get\">");
+                                out.print("<input type=\"hidden\" name=\"usr\" value=\""+emp.getUsuario()+"\">");
                                 out.print("<button type=\"submit\" class=\"btn btn-warning\">Confirmar</button>");
                                 out.print("</form>");
                                 out.print("</div>");
                                 out.print("</div>");
                                 out.print("</div>");
                                 out.print("</div>");
-                            } else {
-                                out.print("<td> <span class=\"badge badge-pill badge-danger\">Offline</span></td>");
-                                out.print("<td><button class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#CambiarEstado"+s.getId()+"\" data-usr=\"usuario\" disabled><i class=\"fas fa-user-times\"></i> </button></td>");
-                            }
-
-
-                        }
-                    %>
-
+                                idd+=1;
+                            }%>
                     </tbody>
                 </table>
             </div>
-
-
         </div>
     </div>
 </div>

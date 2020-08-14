@@ -6,17 +6,12 @@
 <%@ page import="Auxiliares.FuncionesAuxiliares" %>
 <%@ page import="Data.DataPersonaEmpleado" %>
 <%@ page import="Entities.Persona.PersonaPerfil" %>
-<%@ page import="Data.DataPerfil" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="Controladores.*" %>
-<%@ page import="Entities.System.SistemaGlobalConfig" %>
-<%@ page import="Entities.System.SistemaModulo" %>
-<%@ page errorPage="/404error.jsp"%>
-<%--
+<%@ page import="Entities.System.SistemaLogLogins" %>
+<%@ page import="Controladores.*" %><%--
   Created by IntelliJ IDEA.
   User: ezequieldjemdjemian
-  Date: 04/06/2020
-  Time: 21:42
+  Date: 24/05/2020
+  Time: 16:28
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -35,7 +30,7 @@
     <link rel="stylesheet" href="css/table.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
-    <title>Configs</title>
+    <title>Logueos</title>
     <%
         out.print("<link rel=\"icon\" type=\"image/png\" href=\""+ request.getSession(true).getAttribute("icon")+"\"/>");
     %>
@@ -129,99 +124,64 @@
         </nav>
 
         <div class="main text-center" style="overflow-y: scroll;">
-            <h1 style="margin-bottom: 3%">Configuraciones del Sistema</h1>
+            <h1 style="margin-bottom: 3%">Historial de Logueos <a class="text-right" href="downloadLogins"  style="font-size: medium"><i class="fas fa-download"></i>csv</a></h1>
             <%
-                String inputCodModulo="";
-                String inputCodigo="";
-                String inputNombreParametro="";
+                String user="";
+                String estado="";
+                if (request.getParameter("inputUser")!=null)
+                    user = request.getParameter("inputUser");
 
-                String inputValorAtributo="";
-
-
-                if (request.getParameter("inputIDModulo")!=null)
-                    inputCodModulo = request.getParameter("inputIDModulo");
-                if (request.getParameter("inputCodigo")!=null)
-                    inputCodigo = request.getParameter("inputCodigo");
-                if (request.getParameter("inputNombreParametro")!=null)
-                    inputNombreParametro = request.getParameter("inputNombreParametro");
-                if (request.getParameter("inputValorAtributo")!=null)
-                    inputValorAtributo = request.getParameter("inputValorAtributo");
-
+                if (request.getParameter("inputResultado")!=null)
+                    estado = request.getParameter("inputResultado");
             %>
-            <form name = "filterForm" method="get" action="adminConfiguraciones.jsp" style="margin-bottom:2%" >
+            <form name = "filterForm" method="get" action="logins.jsp" style="margin-bottom:2%" >
                 <div class="row col-sm-12 justify-content-center" >
-                    <div class="input-group col-sm-2">
+                    <div class="input-group col-sm-2 text-center">
                         <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputIDModulo">Modulo</label>
+                            <label class="input-group-text" for="inputUser">Usuario</label>
                         </div>
-                        <select class="custom-select" id="inputIDModulo" name="inputIDModulo" >
-                            <option value="" selected>all</option>>
-                            <%
-                                for (Map.Entry<Integer, String> en : new BuscarModulos().getAllCodigos().entrySet() ){
-                                    out.print("<option value=\"" + en.getValue()+ "\">" + en.getKey() + "- " + en.getValue() + "</option>");
-                                }
-                            %>
+                        <input type="text" class="form-control" placeholder="all" name="inputUser" id="inputUser" >
+                    </div>
+
+                    <div class="input-group col-sm-2 text-center" style="margin-left: 3%;">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputResultado">Resultado</label>
+                        </div>
+                        <select class="custom-select" id="inputResultado" name="inputResultado">
+                            <option value="" selected>all</option>
+                            <option value="1">Correcto</option>
+                            <option value="2">Incorrecto</option>
                         </select>
                     </div>
-
-                    <div class="input-group col-sm-2 text-center" style="margin-left: 3%;">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputCodigo">Codigo</label>
-                        </div>
-                        <input type="text" class="form-control" placeholder="all" name="inputCodigo" id="inputCodigo" >
-                    </div>
-
-                    <div class="input-group col-sm-2 text-center" style="margin-left: 3%;">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputNombreParametro">Parametro</label>
-                        </div>
-                        <input type="text" class="form-control" placeholder="all" name="inputNombreParametro" id="inputNombreParametro" >
-                    </div>
-
-                    <div class="input-group col-sm-2 text-center" style="margin-left: 3%;">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputValorAtributo">Atributo</label>
-                        </div>
-                        <input type="text" class="form-control" placeholder="all" name="inputValorAtributo" id="inputValorAtributo" >
-                    </div>
-
                     <input type="submit" value="Filtrar" class="btn btn-primary" style="margin-left: 3%; ">
                 </div>
             </form>
 
-            <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 35%">
+            <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 75%">
                 <table class="table">
                     <thead>
                     <tr class="thead-dark">
-                        <th scope="col">ID</th>
-                        <th scope="col">ID - Modulo</th>
-                        <th scope="col">Codigo</th>
-                        <th scope="col">Parametro</th>
-                        <th scope="col">Nombre Atributo</th>
-                        <th scope="col">Valor Atributo</th>
-                        <th scope="col">Accion</th>
+                        <th scope="col">#</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Password</th>
+                        <th scope="col">Fecha y hora</th>
+                        <th scope="col">Resultado</th>
                     </tr>
                     </thead>
                     <tbody>
                     <%
-                        SistemaGlobalConfig g = new SistemaGlobalConfig();
-                        g.setModulo(new SistemaModulo(inputCodModulo));
-                        g.setCodigo(inputCodigo);
-                        g.setNombreParametro(inputNombreParametro);
-                        g.setValorAtributo(inputValorAtributo);
-                        for (SistemaGlobalConfig p : new BuscarGlobalConfig().buscarGlobalConfigByFilter(g)){
+                        int idd=1;
+                        for (SistemaLogLogins l : new BuscarLogins().buscarLogins(user, estado)){
                             out.print("<tr>");
-                            out.print("<th scope=\"row\">"+p.getId()+"</th>");
-                            out.print("<td>"+p.getModulo().getId() + " - "+ p.getModulo().getNombre() +"</td>");
-                            out.print("<td>"+p.getCodigo() +"</td>");
-                            out.print("<td>"+p.getNumeroParametro() + " - "+ p.getNombreParametro()+"</td>");
-                            out.print("<td>"+p.getNombreAtributo() +"</td>");
-                            out.print("<td>"+p.getValorAtributo() +"</td>");
-
-                            out.print("<form name=\"usr\" method=\"get\" action=\"adminModificarConfig.jsp\">");
-                            out.print("<input type=\"hidden\" name=\"usr\" value=\""+p.getId()+"\">");
-                            out.print("<td><button class=\"btn btn-primary\"><i class=\"fas fa-user-edit\"></i> </button></td>");
-                            out.print("</form>");
+                            out.print("<th scope=\"row\">"+idd+"</th>");
+                            out.print("<td>"+l.getUsuario().toUpperCase()+"</td>");
+                            out.print("<td>"+ l.getPassword() + "</td>");
+                            out.print("<td>"+ l.getTiempo() +"</td>");
+                            if (l.getResultado())
+                                out.print("<td> <span class=\"badge badge-pill badge-success\">Correcto</span></td>");
+                            else
+                                out.print("<td> <span class=\"badge badge-pill badge-danger\">Incorrecto</span></td>");
+                            idd+=1;
                         }%>
                     </tbody>
                 </table>

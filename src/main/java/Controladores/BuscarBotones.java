@@ -15,7 +15,7 @@ public class BuscarBotones {
             return new DataBoton().getAllByEmpleado(e);
         } catch (SQLException ef){
             //int idCategoria, String msj, String urlDestino, int prioridad, String userResponsable
-            new GrabarNotificacion(new Notificacion(5, "Excepcion ocurrida en "+this.getClass() +"."+this.getClass().getEnclosingMethod().getName(),
+            new GrabarNotificacion(new Notificacion(8, "Excepcion ocurrida en "+this.getClass() +"."+this.getClass().getEnclosingMethod().getName(),
                     3,"ADMIN"));
             return null;
         }
@@ -26,7 +26,7 @@ public class BuscarBotones {
             return new DataBoton().getAll();
         } catch (SQLException ef){
             //int idCategoria, String msj, String urlDestino, int prioridad, String userResponsable
-            new GrabarNotificacion(new Notificacion(5, "Excepcion ocurrida en "+this.getClass() +"."+this.getClass().getEnclosingMethod().getName(),
+            new GrabarNotificacion(new Notificacion(8, "Excepcion ocurrida en "+this.getClass() +"."+this.getClass().getEnclosingMethod().getName(),
                     2,"ADMIN"));
             return null;
         }

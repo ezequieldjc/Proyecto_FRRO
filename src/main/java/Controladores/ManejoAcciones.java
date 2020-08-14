@@ -16,7 +16,7 @@ public class ManejoAcciones {
         try {
             return new DataAccion().getByFilter(a);
         } catch (SQLException throwables) {
-            new GrabarNotificacion(new Notificacion(5, "Excepcion ocurrida en "+this.getClass() +"."+this.getClass().getEnclosingMethod().getName(),
+            new GrabarNotificacion(new Notificacion(7, "Excepcion ocurrida en "+this.getClass() +"."+this.getClass().getEnclosingMethod().getName(),
                     3,"ADMIN"));
             return null;
         }
@@ -26,7 +26,11 @@ public class ManejoAcciones {
         try {
             return new DataAccion().getAllCodigos();
         } catch (SQLException ef){
-            ef.printStackTrace();
+            Notificacion n = new Notificacion();
+            n.setCategoria(new NotificacionCategoria(7));
+            n.setMensaje("Excepcion ocurrida al intentar obtener los codigos de las acciones");
+            n.setPrioridad(1);
+            new GrabarNotificacion(n);
             return null;
         }
     }

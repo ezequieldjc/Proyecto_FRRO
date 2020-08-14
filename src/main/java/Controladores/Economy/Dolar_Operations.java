@@ -63,7 +63,7 @@ public class Dolar_Operations {
             new DataEconomyDolar().insertAll(dv);
         } catch (SQLException throwables) {
             Notificacion n = new Notificacion();
-            n.setCategoria(new NotificacionCategoria(6));
+            n.setCategoria(new NotificacionCategoria(9));
             n.setMensaje("Excepcion ocurrida al intentar actualizar economy_dolar_history");
             n.setPrioridad(2);
             n.setResponsable(null);
@@ -76,7 +76,12 @@ public class Dolar_Operations {
         try {
             return new DataEconomyDolar().getAll();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            Notificacion n = new Notificacion();
+            n.setCategoria(new NotificacionCategoria(9));
+            n.setMensaje("Excepcion ocurrida al intentar actualizar economy_dolar_history");
+            n.setPrioridad(2);
+            n.setResponsable(null);
+            new GrabarNotificacion(n);
             return null;
         }
     }
@@ -86,7 +91,12 @@ public class Dolar_Operations {
         try {
             return new DataEconomyDolar().getLast500();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            Notificacion n = new Notificacion();
+            n.setCategoria(new NotificacionCategoria(9));
+            n.setMensaje("Excepcion ocurrida al intentar actualizar economy_dolar_history");
+            n.setPrioridad(2);
+            n.setResponsable(null);
+            new GrabarNotificacion(n);
             return null;
         }
     }

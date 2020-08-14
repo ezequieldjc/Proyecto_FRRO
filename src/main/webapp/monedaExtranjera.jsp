@@ -164,7 +164,7 @@
                             out.print("<th scope=\"row\">"+idd+"</th>");
                             out.print("<td>"+d.getFecha()+"</td>");
                             out.print("<td>"+d.getValue()+"</td>");
-                            out.print("<form name=\"usr\" method=\"get\" action=\"adminPerfilForm.jsp\">");
+                            out.print("<form name=\"usr\" method=\"get\" action=\"perfilModificacion.jsp\">");
                             out.print("<input type=\"hidden\" name=\"id\" value=\""+d.getFecha()+"\">");
                             out.print("<td><button class=\"btn btn-primary\" disabled><i class=\"fas fa-user-edit\"></i> </button></td>");
                             out.print("</form>");

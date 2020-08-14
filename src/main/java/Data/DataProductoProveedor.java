@@ -33,7 +33,7 @@ public class DataProductoProveedor {
     public ProductoProveedor getOneByID(ProductoProveedor pp) throws SQLException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement("select id, codigo, nombre, cuit from producto_fabricantes where id = ?;");
+        stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement("select id, codigo, nombre, cuit from producto_proveedor where id = ?;");
         stmt.setInt(1,pp.getId());
         rs = stmt.executeQuery();
         if(rs.next()){

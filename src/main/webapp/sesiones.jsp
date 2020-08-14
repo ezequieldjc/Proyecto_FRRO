@@ -6,13 +6,13 @@
 <%@ page import="Auxiliares.FuncionesAuxiliares" %>
 <%@ page import="Data.DataPersonaEmpleado" %>
 <%@ page import="Entities.Persona.PersonaPerfil" %>
-<%@ page import="Data.DataPerfil" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="Entities.System.SistemaSesiones" %>
 <%@ page import="Controladores.*" %><%--
   Created by IntelliJ IDEA.
   User: ezequieldjemdjemian
-  Date: 03/06/2020
-  Time: 22:42
+  Date: 29/05/2020
+  Time: 18:10
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -21,17 +21,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <title>Sesiones</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
     <link rel="stylesheet" type="text/css" href="css/menu.css"/>
     <link rel="stylesheet" href="css/adminUsuarios.css">
-    <link rel="stylesheet" href="css/table.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-
-    <title>Perfiles</title>
     <%
         out.print("<link rel=\"icon\" type=\"image/png\" href=\""+ request.getSession(true).getAttribute("icon")+"\"/>");
     %>
@@ -123,30 +120,51 @@
         </nav>
 
         <div class="main text-center" style="overflow-y: scroll;">
-            <h1 style="margin-bottom: 3%">Perfiles</h1>
+            <h1 style="margin-bottom: 3%">Sesiones</h1>
             <%
-                String idPerfil="";
+                String idUsuario="";
+                String inputNyA="";
+                String status="";
+                if (request.getParameter("idUsuario")!=null)
+                    idUsuario = request.getParameter("idUsuario");
 
-                if (request.getParameter("inputIDPerfil")!=null)
-                    idPerfil = request.getParameter("inputIDPerfil");
+                if (request.getParameter("inputNyA")!=null)
+                    inputNyA = request.getParameter("inputNyA");
 
+                if (request.getParameter("inputStatus")!=null)
+                    status = request.getParameter("inputStatus");
             %>
-            <form name = "filterForm" method="get" action="adminPerfiles.jsp" style="margin-bottom:2%" >
+            <form name = "filterForm" method="post" action="sesiones.jsp" style="margin-bottom:2%" >
                 <div class="row col-sm-12 justify-content-center" >
                     <div class="input-group col-sm-2">
                         <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputIDPerfil">Nombre</label>
+                            <label class="input-group-text" for="idUsuario">Usuario</label>
                         </div>
-                        <select class="custom-select" id="inputIDPerfil" name="inputIDPerfil" >
+                        <select class="custom-select" id="idUsuario" name="idUsuario" >
                             <option value="" selected>all</option>>
                             <%
-                                for (Map.Entry<Integer, String> en : new BuscarPerfiles().getHashID().entrySet() ){
+                                for (Map.Entry<Integer, String> en : new DataPersonaEmpleado().getAllNombresUsuarios().entrySet() ){
                                     out.print("<option value=\"" + en.getKey()+ "\">" + en.getKey() + "- " + en.getValue() + "</option>");
                                 }
                             %>
                         </select>
                     </div>
-
+                    <div class="input-group col-sm-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputNyA">Nombre</label>
+                        </div>
+                        <input type="text" class="form-control" placeholder="all" name="inputNyA" id="inputNyA" >
+                    </div>
+                    <div class="input-group col-sm-2 text-center">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputStatus">Estado</label>
+                        </div>
+                        <select class="custom-select" id="inputStatus" name="inputStatus">
+                            <option value="" selected>all</option>
+                            <option value="1">Abierta</option>
+                            <option value="2">Cerrada</option>
+                        </select>
+                    </div>
                     <input type="submit" value="Filtrar" class="btn btn-primary" style="margin-left: 3%; ">
                 </div>
             </form>
@@ -156,47 +174,78 @@
                     <thead>
                     <tr class="thead-dark">
                         <th scope="col">#</th>
-                        <th scope="col">Codigo</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Descripcion</th>
-                        <th scope="col">Owner</th>
-                        <th scope="col">Backup</th>
-                        <th scope="col" colspan="2">Accion</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Nombre y Apellido</th>
+                        <th scope="col">Fecha de Inicio</th>
+                        <th scope="col">Fecha de Cierre</th>
+                        <th scope="col">Duracion</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Invalidar</th>
                     </tr>
                     </thead>
                     <tbody>
+
                     <%
                         int idd=1;
-                        if (idPerfil.equals(""))
-                            idPerfil="0";
-                        for (PersonaPerfil p : new BuscarPerfiles().buscarTodos(new PersonaPerfil(Integer.parseInt(idPerfil)))){
-                            if(p.getId() == e.getPerfil().getId())
-                                out.print("<tr class=\"table-secondary\">");
+                        for (SistemaSesiones s : new BuscarSesiones().buscarSesiones(idUsuario,inputNyA,status)) {
+                            if (s.getEmpleado().getId()==(e.getId()) || s.getEmpleado().getUsuario().equals("ADMIN")){
+                                if(s.getEmpleado().getId()==(e.getId()))
+                                    out.print("<tr class=\"table-success\">");
+                                else
+                                    out.print("<tr class=\"table-primary\">");
+                            }
                             else
                                 out.print("<tr>");
                             out.print("<th scope=\"row\">"+idd+"</th>");
-                            out.print("<td>"+p.getCodigo()+"</td>");
-                            out.print("<td>"+p.getName()+"</td>");
-                            out.print("<td>"+p.getDesc() +"</td>");
-                            out.print("<td>"+p.getOwner().getUsuario()+"</td>");
-                            out.print("<td>"+p.getBackup().getUsuario()+ "</td>");
+                            out.print("<td>"+s.getEmpleado().getUsuario()+"</td>");
+                            out.print("<td>"+s.getEmpleado().getNombre() +","+s.getEmpleado().getApellido() +"</td>");
+                            out.print("<td>"+s.getFechaDesde()+"</td>");
 
-                            out.print("<form name=\"usr\" method=\"get\" action=\"adminPerfilForm.jsp\">");
-                            out.print("<input type=\"hidden\" name=\"id\" value=\""+p.getId()+"\">");
-                            out.print("<td><button class=\"btn btn-primary\"><i class=\"fas fa-user-edit\"></i> </button></td>");
-                            out.print("</form>");
+                            if (s.getFechaHasta()!=null){
+                                out.print("<td>"+s.getFechaHasta()+"</td>");
+                                int x = (int) ((s.getFechaHasta().getTime() - s.getFechaDesde().getTime())/(60*1000));
+                                out.print("<td> "+x + " minutos" +" </td>");
+                            } else {
+                                out.print("<td> null </td>");
+                                out.print("<td> null </td>");
+                            }
 
-                            out.print("<form name=\"usr\" method=\"get\" action=\"adminPerfilNuevo.jsp\">");
-                            out.print("<input type=\"hidden\" name=\"id\" value=\""+p.getId()+"\">");
-                            out.print("<td><button class=\"btn btn-success\"><i class=\"fas fa-clone\"></i> </button></td>");
-                            out.print("</form>");
+                            if (s.getFechaHasta()==null) {
+                                out.print("<td> <span class=\"badge badge-pill badge-success\">Online</span></td>");
+                                out.print("<td><button class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#CambiarEstado"+s.getId()+"\" data-usr=\"usuario\"><i class=\"fas fa-user-times\"></i> </button></td>");
+                                out.print("<div class=\"modal fade\" id=\"CambiarEstado"+s.getId()+"\">");
+                                out.print("<div class=\"modal-dialog\">");
+                                out.print("<div class=\"modal-content\">");
+                                out.print("<div class=\"modal-header\">");
+                                out.print("<h4 class=\"modal-title\">Confirmacion</h4>");
+                                out.print("<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>");
+                                out.print("</div>");
+                                out.print("<div class=\"modal-body\">");
+                                out.print("Desea cerrar la sesion del usuario "+s.getEmpleado().getUsuario()+"?");
+                                out.print("</div>");
+                                out.print("<div class=\"modal-footer\">");
+                                out.print("<form action=\"cerrarSesion\" method=\"get\">");
+                                out.print("<input type=\"hidden\" name=\"usr\" value=\""+s.getEmpleado().getUsuario()+"\">");
+                                out.print("<button type=\"submit\" class=\"btn btn-warning\">Confirmar</button>");
+                                out.print("</form>");
+                                out.print("</div>");
+                                out.print("</div>");
+                                out.print("</div>");
+                                out.print("</div>");
+                            } else {
+                                out.print("<td> <span class=\"badge badge-pill badge-danger\">Offline</span></td>");
+                                out.print("<td><button class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#CambiarEstado"+s.getId()+"\" data-usr=\"usuario\" disabled><i class=\"fas fa-user-times\"></i> </button></td>");
+                            }
 
 
-                            idd+=1;
-                        }%>
+                        }
+                    %>
+
                     </tbody>
                 </table>
             </div>
+
+
         </div>
     </div>
 </div>

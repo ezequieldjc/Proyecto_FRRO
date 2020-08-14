@@ -48,15 +48,15 @@ public class actualizarUsuario extends HttpServlet {
             Object a = new ActualizarEmpleado().actualizarEmpleado(pe, e);
             if (a.getClass().toString().equals("class java.lang.Boolean")) {
                 session.setAttribute("ABMCorrecta", "Se ha actualizado al usuario correctamente");
-                resp.sendRedirect("adminUsuarioForm.jsp?usr="+pe.getUsuario());
+                resp.sendRedirect("usuarioModificacion.jsp?usr="+pe.getUsuario());
             } else {
                 Notificacion b = (Notificacion) a;
                 session.setAttribute ("ABMIncorrecta", "No se ha podido actualizar al usuario "+pe.getUsuario()+". Se ha creado una notificacion (28/EAU)");
-                resp.sendRedirect("adminUsuarioForm.jsp?usr="+pe.getUsuario());
+                resp.sendRedirect("usuarioModificacion.jsp?usr="+pe.getUsuario());
             }
         } else {
             session.setAttribute("accionNoPermitida","modificar el estado de los usuarios.");
-            resp.sendRedirect("adminUsuarioForm.jsp?usr="+req.getParameter("inputUser"));
+            resp.sendRedirect("usuarioModificacion.jsp?usr="+req.getParameter("inputUser"));
         }
     }
 

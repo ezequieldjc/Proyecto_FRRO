@@ -15,6 +15,11 @@ public class ProductoPrecio {
 
     }
 
+    public ProductoPrecio(float valor, float maxDscto){
+        this.valor = valor;
+        this.maxDscto = maxDscto;
+    }
+
     public ProductoPrecio(int id) {
         this.id = id;
     }

@@ -21,10 +21,10 @@ public class desbloquearAtributosPerfil extends HttpServlet {
         String idPerfil = (String) sesion.getAttribute("idPerfil");
         if (new TieneAccionPermitida().tieneAccionPermitidaByCodigoAccion(e,new SistemaAccion("MPE"))){
             sesion.setAttribute("bloquearAtributos", false);
-            resp.sendRedirect("adminPerfilForm.jsp?id="+idPerfil);
+            resp.sendRedirect("perfilModificacion.jsp?id="+idPerfil);
         } else {
             sesion.setAttribute("accionNoPermitida","modificar el estado de los usuarios.");
-            resp.sendRedirect("adminPerfilForm.jsp?id="+idPerfil);
+            resp.sendRedirect("perfilModificacion.jsp?id="+idPerfil);
         }
 
     }

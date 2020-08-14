@@ -21,10 +21,10 @@ public class desbloquearAtributosUsuario extends HttpServlet {
         if (new TieneAccionPermitida().tieneAccionPermitidaByCodigoAccion(e,new SistemaAccion("MUS"))){
             sesion.setAttribute("bloquearAtributos", false);
             String usr = (String) sesion.getAttribute("usr");
-            resp.sendRedirect("adminUsuarioForm.jsp?usr="+usr);
+            resp.sendRedirect("usuarioModificacion.jsp?usr="+usr);
         } else {
             sesion.setAttribute("accionNoPermitida","modificar el estado de los usuarios.");
-            resp.sendRedirect("adminUsuarioForm.jsp?usr="+req.getParameter("inputUser"));
+            resp.sendRedirect("usuarioModificacion.jsp?usr="+req.getParameter("inputUser"));
         }
     }
 }

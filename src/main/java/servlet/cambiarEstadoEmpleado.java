@@ -39,7 +39,7 @@ public class cambiarEstadoEmpleado extends  HttpServlet{
                         } else {
                             new GrabarMensaje(new SistemaMensaje(new SistemaModulo(1), "Se deshabilito al usuario" + usuario.getUsuario(), e));
                         }
-                        req.getRequestDispatcher("adminUsuarios.jsp").forward(req, resp);
+                        req.getRequestDispatcher("usuarios.jsp").forward(req, resp);
                     } else {
                         req.getSession(true).setAttribute("errorMensaje","El usuario " + req.getParameter("usr") + " no existe. Contacte al area de sistemas.");
                     }

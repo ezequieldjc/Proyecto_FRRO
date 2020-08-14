@@ -31,7 +31,7 @@ public class Error404 extends HttpServlet{
         n.setPrioridad(2);
         //lo comento pues cada vez que cargo menu.jsp se produce un error 404
         new GrabarNotificacion(n);
-        resp.sendRedirect("404error.jsp");
+        resp.sendRedirect("404.jsp");
 
     }
 

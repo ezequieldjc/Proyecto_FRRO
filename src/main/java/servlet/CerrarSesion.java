@@ -33,7 +33,7 @@ public class CerrarSesion extends HttpServlet{
                             //SistemaModulo sistemaModulo, String mensaje, PersonaEmpleado empleado
                             new GrabarMensaje(new SistemaMensaje(new SistemaModulo(1), "Se cerro la sesion del usuario" + usuario.getUsuario(), e));
                         }
-                        req.getRequestDispatcher("adminSesiones.jsp").forward(req, resp);
+                        req.getRequestDispatcher("sesiones.jsp").forward(req, resp);
                     } else {
                         req.getSession(true).setAttribute("errorMensaje","El usuario " + req.getParameter("usr") + " no existe. Contacte al area de sistemas.");
                     }

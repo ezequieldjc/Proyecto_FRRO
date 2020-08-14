@@ -14,7 +14,7 @@ public class DataProductoCategoria {
         ArrayList<ProductoCategoria> categorias = new ArrayList<ProductoCategoria>();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        String query = "select id, codigo, nombre, desc from producto_categoria;";
+        String query = "select id, codigo, nombre, 'desc' from producto_categoria;";
         stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(query);
         rs = stmt.executeQuery();
         while(rs.next()){
@@ -32,7 +32,7 @@ public class DataProductoCategoria {
     public ProductoCategoria getOneByID(ProductoCategoria productoCategoria) throws SQLException {
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement("select id, codigo, nombre, desc from producto_categoria where id = ?;");
+        stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement("select id, codigo, nombre, 'desc' from producto_categoria where id = ?;");
         stmt.setInt(1,productoCategoria.getId());
         rs = stmt.executeQuery();
         if(rs.next()){

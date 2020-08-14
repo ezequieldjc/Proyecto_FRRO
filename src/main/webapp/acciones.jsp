@@ -11,11 +11,12 @@
 <%@ page import="Controladores.*" %>
 <%@ page import="Entities.System.SistemaGlobalConfig" %>
 <%@ page import="Entities.System.SistemaModulo" %>
-<%@ page import="Entities.System.SistemaMensaje" %><%--
+<%@ page import="Entities.System.SistemaAccion" %>
+<%@ page errorPage="/404error.jsp"%><%--
   Created by IntelliJ IDEA.
   User: ezequieldjemdjemian
   Date: 04/06/2020
-  Time: 23:00
+  Time: 21:42
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -34,7 +35,7 @@
     <link rel="stylesheet" href="css/table.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
-    <title>System Messages</title>
+    <title>Acciones</title>
     <%
         out.print("<link rel=\"icon\" type=\"image/png\" href=\""+ request.getSession(true).getAttribute("icon")+"\"/>");
     %>
@@ -128,44 +129,32 @@
         </nav>
 
         <div class="main text-center" style="overflow-y: scroll;">
-            <h1 style="margin-bottom: 3%">Mensajes del Sistema</h1>
+            <h1 style="margin-bottom: 3%">Acciones del Sistema</h1>
             <%
-                String inputCodModulo="";
-                String inputIDUsuario="";
-                String inputTxtMsj="";
-                if (request.getParameter("inputCodModulo")!=null)
-                    inputCodModulo = request.getParameter("inputCodModulo");
-                if (request.getParameter("inputIDUsuario")!=null)
-                    inputIDUsuario = request.getParameter("inputIDUsuario");
-                if (request.getParameter("inputTxtMsj")!=null)
-                    inputTxtMsj = request.getParameter("inputTxtMsj");
+                String inputCodAccion="";
+                String inputNombreAccion="";
+                String inputDescAccion="";
 
+
+
+                if (request.getParameter("inputCodAccion")!=null)
+                    inputCodAccion = request.getParameter("inputCodAccion");
+                if (request.getParameter("inputNombreAccion")!=null)
+                    inputNombreAccion = request.getParameter("inputNombreAccion");
+                if (request.getParameter("inputDescAccion")!=null)
+                    inputDescAccion = request.getParameter("inputDescAccion");
 
             %>
-            <form name = "filterForm" method="get" action="adminMensajesSistema.jsp" style="margin-bottom:2%" >
+            <form name = "filterForm" method="get" action="acciones.jsp" style="margin-bottom:2%" >
                 <div class="row col-sm-12 justify-content-center" >
                     <div class="input-group col-sm-2">
                         <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputCodModulo">Modulo</label>
+                            <label class="input-group-text" for="inputCodAccion">Codigo</label>
                         </div>
-                        <select class="custom-select" id="inputCodModulo" name="inputCodModulo" >
+                        <select class="custom-select" id="inputCodAccion" name="inputCodAccion" >
                             <option value="" selected>all</option>>
                             <%
-                                for (Map.Entry<Integer, String> en : new BuscarModulos().getAllCodigos().entrySet() ){
-                                    out.print("<option value=\"" + en.getValue()+ "\">" + en.getKey() + "- " + en.getValue() + "</option>");
-                                }
-                            %>
-                        </select>
-                    </div>
-
-                    <div class="input-group col-sm-2">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputIDUsuario">Usuario</label>
-                        </div>
-                        <select class="custom-select" id="inputIDUsuario" name="inputIDUsuario" >
-                            <option value="" selected>all</option>>
-                            <%
-                                for (Map.Entry<Integer, String> en : new BuscarEmpleado().buscarEmpleadosUser().entrySet() ){
+                                for (Map.Entry<Integer, String> en : new ManejoAcciones().getAllCodigos().entrySet() ){
                                     out.print("<option value=\"" + en.getValue()+ "\">" + en.getKey() + "- " + en.getValue() + "</option>");
                                 }
                             %>
@@ -174,36 +163,47 @@
 
                     <div class="input-group col-sm-2 text-center" style="margin-left: 3%;">
                         <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputTxtMsj">Texto</label>
+                            <label class="input-group-text" for="inputNombreAccion">Nombre</label>
                         </div>
-                        <input type="text" class="form-control" placeholder="all" name="inputTxtMsj" id="inputTxtMsj" >
+                        <input type="text" class="form-control" placeholder="all" name="inputNombreAccion" id="inputNombreAccion" >
                     </div>
 
+                    <div class="input-group col-sm-2 text-center" style="margin-left: 3%;">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputDescAccion">Descripcion</label>
+                        </div>
+                        <input type="text" class="form-control" placeholder="all" name="inputDescAccion" id="inputDescAccion" >
+                    </div>
 
                     <input type="submit" value="Filtrar" class="btn btn-primary" style="margin-left: 3%; ">
                 </div>
             </form>
 
-            <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 75%">
+            <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 35%">
                 <table class="table">
                     <thead>
                     <tr class="thead-dark">
                         <th scope="col">ID</th>
-                        <th scope="col">ID - Modulo</th>
-                        <th scope="col">Usuario</th>
-                        <th scope="col">Texto</th>
-                        <th scope="col">Fecha y Hora</th>
+                        <th scope="col">Codigo</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Perfiles Asociados</th>
                     </tr>
                     </thead>
                     <tbody>
                     <%
-                        for (SistemaMensaje p : new BuscarSistemaMensajes().buscarSistemaMensajes(new SistemaMensaje(inputCodModulo, inputIDUsuario, inputTxtMsj))){
+
+                        for (SistemaAccion p : new ManejoAcciones().getByFilter(new SistemaAccion(inputCodAccion, inputNombreAccion, inputDescAccion))){
                             out.print("<tr>");
                             out.print("<th scope=\"row\">"+p.getId()+"</th>");
-                            out.print("<td>"+p.getSistemaModulo().getId() +" - " + p.getSistemaModulo().getCodigo() +"</td>");
-                            out.print("<td>"+p.getEmpleado().getUsuario() +"</td>");
-                            out.print("<td>"+p.getMensaje()+"</td>");
-                            out.print("<td>"+p.getTiempo() +"</td>");
+                            out.print("<td>"+p.getCodigo()+"</td>");
+                            out.print("<td>"+p.getNombre()+"</td>");
+                            out.print("<td>"+p.getDesc() +"</td>");
+
+                            out.print("<form name=\"usr\" method=\"get\" action=\"adminModificarConfig.jsp\">");
+                            out.print("<input type=\"hidden\" name=\"usr\" value=\""+p.getId()+"\">");
+                            out.print("<td><button class=\"btn btn-primary\"><i class=\"fas fa-user-edit\"></i> </button></td>");
+                            out.print("</form>");
                         }%>
                     </tbody>
                 </table>

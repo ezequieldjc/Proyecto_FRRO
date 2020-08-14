@@ -17,7 +17,7 @@ public class BuscarAcciones {
             return new DataAccion().getAllByPerfil(e.getPerfil());
         } catch (SQLException ef){
             //int idCategoria, String msj, String urlDestino, int prioridad, String userResponsable
-            new GrabarNotificacion(new Notificacion(5, "Excepcion ocurrida en "+this.getClass() +"."+this.getClass().getEnclosingMethod().getName(),
+            new GrabarNotificacion(new Notificacion(7, "Excepcion ocurrida en "+this.getClass() +"."+this.getClass().getEnclosingMethod().getName(),
                     3,"ADMIN"));
             return null;
         }
@@ -28,7 +28,7 @@ public class BuscarAcciones {
             return new DataAccion().getAll();
         } catch (SQLException ef){
             //int idCategoria, String msj, String urlDestino, int prioridad, String userResponsable
-            new GrabarNotificacion(new Notificacion(5, "Excepcion ocurrida en "+this.getClass() +"."+this.getClass().getEnclosingMethod().getName(),
+            new GrabarNotificacion(new Notificacion(7, "Excepcion ocurrida en "+this.getClass() +"."+this.getClass().getEnclosingMethod().getName(),
                     2,"ADMIN"));
             return null;
         }

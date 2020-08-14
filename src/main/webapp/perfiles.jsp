@@ -6,12 +6,13 @@
 <%@ page import="Auxiliares.FuncionesAuxiliares" %>
 <%@ page import="Data.DataPersonaEmpleado" %>
 <%@ page import="Entities.Persona.PersonaPerfil" %>
-<%@ page import="Entities.System.SistemaLogLogins" %>
+<%@ page import="Data.DataPerfil" %>
+<%@ page import="java.util.Map" %>
 <%@ page import="Controladores.*" %><%--
   Created by IntelliJ IDEA.
   User: ezequieldjemdjemian
-  Date: 24/05/2020
-  Time: 16:28
+  Date: 03/06/2020
+  Time: 22:42
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -30,7 +31,7 @@
     <link rel="stylesheet" href="css/table.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
-    <title>Logueos</title>
+    <title>Perfiles</title>
     <%
         out.print("<link rel=\"icon\" type=\"image/png\" href=\""+ request.getSession(true).getAttribute("icon")+"\"/>");
     %>
@@ -92,95 +93,105 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item" style="margin-right: 10px;" hidden>
-                        <a class="nav-link" href="https://www.google.com.ar/maps/">Maps</a>
-                    </li>
-                    <li class="nav-item active" style="margin-right: 10px; width: 50%;">
-                        <%
-                            int m = e.getNotificaciones().size();
-                            if (m==0) {
-                                out.print("<button type=\"button\" class=\"btn btn-success text-center text-light align-middle\" href=\"#\" data-toggle=\"modal\" data-target=\"#mimodal\" >");
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item" style="margin-right: 10px;" hidden>
+                    <a class="nav-link" href="https://www.google.com.ar/maps/">Maps</a>
+                </li>
+                <li class="nav-item active" style="margin-right: 10px; width: 50%;">
+                    <%
+                        int m = e.getNotificaciones().size();
+                        if (m==0) {
+                            out.print("<button type=\"button\" class=\"btn btn-success text-center text-light align-middle\" href=\"#\" data-toggle=\"modal\" data-target=\"#mimodal\" >");
+                        }
+                        else {
+                            if (m<4) {
+                                out.print("<button type=\"button\" class=\"btn btn-warning text-center text-light align-middle\" href=\"#\" data-toggle=\"modal\" data-target=\"#mimodal\" >");
+                            } else {
+                                out.print("<button type=\"button\" class=\"btn btn-danger text-center text-light align-middle\" href=\"#\" data-toggle=\"modal\" data-target=\"#mimodal\" >");
                             }
-                            else {
-                                if (m<4) {
-                                    out.print("<button type=\"button\" class=\"btn btn-warning text-center text-light align-middle\" href=\"#\" data-toggle=\"modal\" data-target=\"#mimodal\" >");
-                                } else {
-                                    out.print("<button type=\"button\" class=\"btn btn-danger text-center text-light align-middle\" href=\"#\" data-toggle=\"modal\" data-target=\"#mimodal\" >");
-                                }
-                            }
-                        %>
-                        <i class="fas fa-bell"></i> <span class="badge badge-light"> <% out.print(e.getNotificaciones().size());%> </span>
-                        </button>
-                    </li>
-                    <li class="nav-item" style="margin-right: 10px;" hidden>
-                        <button type="button" class="btn btn-warning text-center text-light align-middle">
-                            <i class="fas fa-question"> </i> <span class="badge badge-light">0</span>
-                        </button>
-                    </li>
-                </ul>
-            </div>
+                        }
+                    %>
+                    <i class="fas fa-bell"></i> <span class="badge badge-light"> <% out.print(e.getNotificaciones().size());%> </span>
+                    </button>
+                </li>
+                <li class="nav-item" style="margin-right: 10px;" hidden>
+                    <button type="button" class="btn btn-warning text-center text-light align-middle">
+                        <i class="fas fa-question"> </i> <span class="badge badge-light">0</span>
+                    </button>
+                </li>
+            </ul>
         </nav>
 
         <div class="main text-center" style="overflow-y: scroll;">
-            <h1 style="margin-bottom: 3%">Historial de Logueos <a class="text-right" href="downloadLogins"  style="font-size: medium"><i class="fas fa-download"></i>csv</a></h1>
+            <h1 style="margin-bottom: 3%">Perfiles</h1>
             <%
-                String user="";
-                String estado="";
-                if (request.getParameter("inputUser")!=null)
-                    user = request.getParameter("inputUser");
+                String idPerfil="";
 
-                if (request.getParameter("inputResultado")!=null)
-                    estado = request.getParameter("inputResultado");
+                if (request.getParameter("inputIDPerfil")!=null)
+                    idPerfil = request.getParameter("inputIDPerfil");
+
             %>
-            <form name = "filterForm" method="get" action="adminLogueos.jsp" style="margin-bottom:2%" >
+            <form name = "filterForm" method="get" action="perfiles.jsp" style="margin-bottom:2%" >
                 <div class="row col-sm-12 justify-content-center" >
-                    <div class="input-group col-sm-2 text-center">
+                    <div class="input-group col-sm-2">
                         <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputUser">Usuario</label>
+                            <label class="input-group-text" for="inputIDPerfil">Nombre</label>
                         </div>
-                        <input type="text" class="form-control" placeholder="all" name="inputUser" id="inputUser" >
-                    </div>
-
-                    <div class="input-group col-sm-2 text-center" style="margin-left: 3%;">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputResultado">Resultado</label>
-                        </div>
-                        <select class="custom-select" id="inputResultado" name="inputResultado">
-                            <option value="" selected>all</option>
-                            <option value="1">Correcto</option>
-                            <option value="2">Incorrecto</option>
+                        <select class="custom-select" id="inputIDPerfil" name="inputIDPerfil" >
+                            <option value="" selected>all</option>>
+                            <%
+                                for (Map.Entry<Integer, String> en : new BuscarPerfiles().getHashID().entrySet() ){
+                                    out.print("<option value=\"" + en.getKey()+ "\">" + en.getKey() + "- " + en.getValue() + "</option>");
+                                }
+                            %>
                         </select>
                     </div>
+
                     <input type="submit" value="Filtrar" class="btn btn-primary" style="margin-left: 3%; ">
                 </div>
             </form>
 
-            <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 75%">
+            <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 35%">
                 <table class="table">
                     <thead>
                     <tr class="thead-dark">
                         <th scope="col">#</th>
-                        <th scope="col">Usuario</th>
-                        <th scope="col">Password</th>
-                        <th scope="col">Fecha y hora</th>
-                        <th scope="col">Resultado</th>
+                        <th scope="col">Codigo</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Owner</th>
+                        <th scope="col">Backup</th>
+                        <th scope="col" colspan="2">Accion</th>
                     </tr>
                     </thead>
                     <tbody>
                     <%
                         int idd=1;
-                        for (SistemaLogLogins l : new BuscarLogins().buscarLogins(user, estado)){
-                            out.print("<tr>");
-                            out.print("<th scope=\"row\">"+idd+"</th>");
-                            out.print("<td>"+l.getUsuario().toUpperCase()+"</td>");
-                            out.print("<td>"+ l.getPassword() + "</td>");
-                            out.print("<td>"+ l.getTiempo() +"</td>");
-                            if (l.getResultado())
-                                out.print("<td> <span class=\"badge badge-pill badge-success\">Correcto</span></td>");
+                        if (idPerfil.equals(""))
+                            idPerfil="0";
+                        for (PersonaPerfil p : new BuscarPerfiles().buscarTodos(new PersonaPerfil(Integer.parseInt(idPerfil)))){
+                            if(p.getId() == e.getPerfil().getId())
+                                out.print("<tr class=\"table-secondary\">");
                             else
-                                out.print("<td> <span class=\"badge badge-pill badge-danger\">Incorrecto</span></td>");
+                                out.print("<tr>");
+                            out.print("<th scope=\"row\">"+idd+"</th>");
+                            out.print("<td>"+p.getCodigo()+"</td>");
+                            out.print("<td>"+p.getName()+"</td>");
+                            out.print("<td>"+p.getDesc() +"</td>");
+                            out.print("<td>"+p.getOwner().getUsuario()+"</td>");
+                            out.print("<td>"+p.getBackup().getUsuario()+ "</td>");
+
+                            out.print("<form name=\"usr\" method=\"get\" action=\"perfilModificacion.jsp\">");
+                            out.print("<input type=\"hidden\" name=\"id\" value=\""+p.getId()+"\">");
+                            out.print("<td><button class=\"btn btn-primary\"><i class=\"fas fa-user-edit\"></i> </button></td>");
+                            out.print("</form>");
+
+                            out.print("<form name=\"usr\" method=\"get\" action=\"adminPerfilNuevo.jsp\">");
+                            out.print("<input type=\"hidden\" name=\"id\" value=\""+p.getId()+"\">");
+                            out.print("<td><button class=\"btn btn-success\"><i class=\"fas fa-clone\"></i> </button></td>");
+                            out.print("</form>");
+
+
                             idd+=1;
                         }%>
                     </tbody>

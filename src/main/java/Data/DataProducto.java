@@ -4,10 +4,8 @@ import Controladores.ProductoCategoriaHandler;
 import Controladores.ProductoFabricantesHandler;
 import Controladores.ProductoPrecioHandler;
 import Controladores.ProductoProveedorHandler;
-import Entities.Productos.Producto;
-import Entities.Productos.ProductoCategoria;
-import Entities.Productos.ProductoFabricante;
-import Entities.Productos.ProductoProveedor;
+import Entities.Persona.PersonaEmpleado;
+import Entities.Productos.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,7 +24,7 @@ public class DataProducto {
                 " on p.idFabricante = pf.id " +
                 " inner join producto_proveedor pp " +
                 " on p.idProveedor = p.id " +
-                " inner join producto_precio ppr " +
+                " left join producto_precio ppr " +
                 " on p.id = ppr.idProducto;";
         stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(query);
         rs = stmt.executeQuery();
@@ -85,6 +83,46 @@ public class DataProducto {
             productos.add(p);
         }
         return productos;
+    }
+
+    public Producto registrarProducto (Producto producto) throws SQLException{
+        PreparedStatement stmt = null;
+        stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(
+                    "INSERT INTO `proyecto-mysql`.`producto` (`id`, `idProveedor`,`idFabricante`,`idCategoria`,`codigo`,`nombre`,`desc`,`estado`) " +
+                            "VALUES (?,?,?,?,?,?,?,?);"
+                    , PreparedStatement.RETURN_GENERATED_KEYS);
+        stmt.setInt(1,producto.getId());
+        stmt.setInt(2,producto.getProductoProveedor().getId());
+        stmt.setInt(3,producto.getProductoFabricante().getId());
+        stmt.setInt(4,producto.getProductoCategoria().getId());
+        stmt.setString(5,producto.getCodigo());
+        stmt.setString(6,producto.getNombre());
+        stmt.setString(7,producto.getDesc());
+        stmt.setBoolean(8,producto.getEstado());
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+        if (rs != null && rs.next()) {
+            producto.setId(rs.getInt(1));
+        }
+        return producto;
+    }
+
+    private Producto registrarPrecioInicial (Producto producto) throws SQLException{
+        PreparedStatement stmt = null;
+        stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(
+                    "insert into `proyecto-mysql`.`producto_precio` (`nombre`,`idProducto`,`valor`,`maxDescuento`) values " +
+                            "(?,?,?,?); "
+                    , PreparedStatement.RETURN_GENERATED_KEYS);
+        stmt.setString(1, "Precio Inicial");
+        stmt.setInt(2,producto.getId());
+        stmt.setFloat(3, producto.getProductoPrecioActivo().get(0).getValor());
+        stmt.setFloat(4, producto.getProductoPrecioActivo().get(0).getMaxDscto());
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+        if (rs != null && rs.next()) {
+            producto.getProductoPrecioActivo().get(0).setId(rs.getInt(1));
+        }
+        return producto;
     }
 
 
