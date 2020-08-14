@@ -1,6 +1,6 @@
-package Controladores;
+package Controladores.Producto;
 
-import Data.DataProductoCategoria;
+import Data.Producto.DataProductoCategoria;
 import Entities.Productos.ProductoCategoria;
 
 import java.sql.SQLException;

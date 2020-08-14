@@ -1,13 +1,8 @@
-package Controladores;
+package Controladores.Producto;
 
-import Data.DataConnectioniMac;
-import Data.DataProductoFabricante;
-import Entities.Persona.PersonaEmpleado;
-import Entities.Persona.PersonaPerfil;
+import Data.Producto.DataProductoFabricante;
 import Entities.Productos.ProductoFabricante;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

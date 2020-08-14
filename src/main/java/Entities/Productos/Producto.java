@@ -8,6 +8,7 @@ public class Producto {
     private ProductoProveedor productoProveedor;
     private ProductoFabricante productoFabricante;
     private ArrayList<ProductoPrecio> productoPrecioActivo;
+    private ArrayList<ProductoStock> productoStock;
     private ProductoCategoria productoCategoria;
     private String codigo;
     private String nombre;
@@ -29,12 +30,13 @@ public class Producto {
     }
 
     public Producto(int id, ProductoProveedor productoProveedor, ProductoFabricante productoFabricante,
-                    ArrayList<ProductoPrecio> productoPrecioActivo, ProductoCategoria productoCategoria,
+                    ArrayList<ProductoPrecio> productoPrecioActivo, ArrayList<ProductoStock> productoStock,ProductoCategoria productoCategoria,
                     String codigo, String nombre, String desc, boolean estado) {
         this.id = id;
         this.productoProveedor = productoProveedor;
         this.productoFabricante = productoFabricante;
         this.productoPrecioActivo = productoPrecioActivo;
+        this.productoStock = productoStock;
         this.productoCategoria = productoCategoria;
         this.codigo = codigo;
         this.nombre = nombre;
@@ -113,5 +115,17 @@ public class Producto {
 
     public void setProductoCategoria(ProductoCategoria productoCategoria) {
         this.productoCategoria = productoCategoria;
+    }
+
+    public ArrayList<ProductoStock> getProductoStock() {
+        return productoStock;
+    }
+
+    public void setProductoStock(ArrayList<ProductoStock> productoStock) {
+        this.productoStock = productoStock;
+    }
+
+    public boolean isEstado() {
+        return estado;
     }
 }

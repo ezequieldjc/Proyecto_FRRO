@@ -1,5 +1,6 @@
-package Data;
+package Data.Producto;
 
+import Data.DataConnectioniMac;
 import Entities.Productos.Producto;
 import Entities.Productos.ProductoFabricante;
 import Entities.Productos.ProductoPrecio;
@@ -37,7 +38,7 @@ public class DataProductoPrecio {
         ArrayList<ProductoPrecio> precios = new ArrayList<ProductoPrecio>();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement("select id, idProducto, fechaDesde, fechaHasta, valor, maxDescuento, nombre from producto_precio where idProducto = ?;");
+        stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement("select id, idProducto, fechaDesde, fechaHasta, valor, maxDescuento, nombre from producto_precio where idProducto = ? order by fechaHasta desc;");
         stmt.setInt(1,producto.getId());
         rs = stmt.executeQuery();
         while(rs.next()){

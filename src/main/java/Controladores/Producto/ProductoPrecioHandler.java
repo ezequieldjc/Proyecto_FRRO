@@ -1,6 +1,9 @@
-package Controladores;
+package Controladores.Producto;
 
-import Data.DataProductoPrecio;
+import Controladores.GrabarNotificacion;
+import Data.Producto.DataProductoPrecio;
+import Entities.Notificaciones.Notificacion;
+import Entities.Notificaciones.NotificacionCategoria;
 import Entities.Productos.Producto;
 import Entities.Productos.ProductoPrecio;
 
@@ -22,7 +25,11 @@ public class ProductoPrecioHandler {
         try {
             return new DataProductoPrecio().getAllByProducto(p);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            Notificacion n = new Notificacion();
+            n.setCategoria(new NotificacionCategoria(5));
+            n.setMensaje("Excepcion ocurrida al intentar obtener los precios de: "  + p.getCodigo() );
+            n.setPrioridad(1);
+            new GrabarNotificacion(n);
             return null;
         }
     }
@@ -31,7 +38,11 @@ public class ProductoPrecioHandler {
         try {
             return new DataProductoPrecio().getActivosByProducto(p);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            Notificacion n = new Notificacion();
+            n.setCategoria(new NotificacionCategoria(5));
+            n.setMensaje("Excepcion ocurrida al intentar obtener los precios activos de: "  + p.getCodigo() );
+            n.setPrioridad(1);
+            new GrabarNotificacion(n);
             return null;
         }
     }

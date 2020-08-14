@@ -150,7 +150,7 @@
                             </div>
                             <div class="input-group col-4">
                                 <div class="input-group-prepend">
-                                    <label class="input-group-text" for="inputRN">Fecha de Nacimiento</label>
+                                    <label class="input-group-text" for="inputRN">Responsable</label>
                                 </div>
                                 <input type="text" class="form-control" value="<%out.print(n.getResponsable().getUsuario());%>" name="inputRN" id="inputRN" disabled>
                             </div>
@@ -175,7 +175,7 @@
                             </div>
                             <div class="input-group col-3">
                                 <div class="input-group-prepend">
-                                    <label class="input-group-text" for="inputFCN">Nombre</label>
+                                    <label class="input-group-text" for="inputFCN">Fecha</label>
                                 </div>
                                 <input type="text" class="form-control" value="<%out.print(n.getFechaCreacion());%>" name="inputFCN" id="inputFCN" disabled>
                             </div>

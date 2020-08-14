@@ -8,11 +8,12 @@
 <%@ page import="Entities.Persona.PersonaPerfil" %>
 <%@ page import="Controladores.*" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="Entities.Persona.PersonaDocumento" %>
-<%@ page import="Entities.Productos.ProductoCategoria" %>
-<%@ page import="Entities.Productos.ProductoProveedor" %>
-<%@ page import="Entities.Productos.ProductoFabricante" %>
-<%@ page import="Controladores.Producto.*" %><%--
+<%@ page import="Controladores.Producto.ProductoHandler" %>
+<%@ page import="Entities.Productos.Producto" %>
+<%@ page import="Entities.Productos.ProductoPrecio" %>
+<%@ page import="Controladores.Producto.ProductoPrecioHandler" %>
+<%@ page import="Entities.Productos.ProductoStock" %>
+<%@ page import="Controladores.Producto.ProductoStockHandler" %><%--
   Created by IntelliJ IDEA.
   User: ezequieldjemdjemian
   Date: 05/06/2020
@@ -45,11 +46,8 @@
     PersonaEmpleado e = (PersonaEmpleado) session.getAttribute("empleado");
     new VerificarUsuario(request,response);
 
-    String usr = request.getParameter("usr");
-    PersonaEmpleado u = (usr == null) ? e :  new BuscarEmpleado().buscarEmpleadoByUsuario(new PersonaEmpleado(usr));
-
-    boolean bloquearAtributos = (session.getAttribute("bloquearAtributos") == null) || (boolean) session.getAttribute("bloquearAtributos");
-    session.removeAttribute("bloquearAtributos");
+    int idProd = Integer.valueOf(request.getParameter("prod"));
+    Producto p = new ProductoHandler().getOneByID(new Producto(idProd));
 
 %>
 <div class="wrapper" style="font-family: 'Andale Mono', Fallback, sans-serif; overflow-y: hidden;">
@@ -131,158 +129,140 @@
             </ul>
         </nav>
         <div class="main text-center justify-content-center" style="overflow-y: scroll;">
-            <h1 style="margin-bottom: 2%">Registro de Producto</h1>
-
+            <h1 style="margin-bottom: 2%">Producto: <%out.print(p.getId() + " - " + p.getCodigo());%></h1>
 
             <div class="row text-center justify-content-center">
                 <div class="col-lg-11 col-11" style="margin-left: 3%">
-                    <form action="registrarProducto" method="post">
                         <div class="row justify-content-center center-block" style="text-align: center;margin-top: 3%;" >
                             <div class="input-group col-4">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="codProd">Codigo</label>
                                 </div>
-                                <input type="text" class="form-control"  name="codProd" id="codProd" required>
+                                <input type="text" class="form-control" value="<%out.print(p.getCodigo());%>" name="codProd" id="codProd" disabled>
                             </div>
                             <div class="input-group col-4">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="nombreProd">Nombre</label>
                                 </div>
-                                <input type="text" class="form-control" name="nombreProd" id="nombreProd" required>
+                                <input type="text" class="form-control" value="<%out.print(p.getNombre());%>" name="nombreProd" id="nombreProd" disabled>
                             </div>
                             <div class="input-group col-4">
                                 <div class="input-group-prepend">
-                                    <label class="input-group-text" for="categoriaProd" >Categoria</label>
+                                    <label class="input-group-text" for="catProd" >Categoria</label>
                                 </div>
-                                <select class="custom-select" id="categoriaProd" name="categoriaProd" required>
-
-                                    <%
-                                        for (ProductoCategoria p : new ProductoCategoriaHandler().getAll()){
-                                            out.print("<option value=\"" + p.getId()+ "\" selected>" + p.getNombre() + "</option>");
-                                        }
-                                    %>
-                                </select>
+                                <input type="text" class="form-control" value="<%out.print(p.getProductoCategoria().getNombre());%>" name="catProd" id="catProd" disabled>
                             </div>
-
-
                         </div>
                         <div class="row justify-content-center center-block" style="text-align: center;margin-top: 3%;">
                             <div class="input-group col-8">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="descProd">Descripcion</label>
                                 </div>
-                                <input type="text" class="form-control" value="" name="descProd" id="descProd" required>
+                                <input type="text" class="form-control" value="<%out.print(p.getDesc());%>" name="descProd" id="descProd" disabled>
                             </div>
-                            <div class="input-group col-4">
+                            <div class="input-group col-2 justify-content-center">
                                 <div class="input-group-prepend">
-                                    <label class="input-group-text" for="estadoProd">Estado</label>
+                                    <label class="input-group-text" for="inputEstado">Estado</label>
                                 </div>
-                                <select class="custom-select" id="estadoProd" name="estadoProd" required>
-                                        <option value="1" selected>Activo</option>
-                                        <option value="0" >Inactivo</option>
-                                </select>
+                                <%
+                                    if (p.getEstado())
+                                        out.print("<span class=\"badge badge-success  d-flex align-items-center\" id=\"inputEstado\">Hab</span>");
+                                    else
+                                        out.print("<span class=\"badge badge-danger  d-flex align-items-center\" id=\"inputEstado\">Desh</span>");
+                                %>
                             </div>
-
                         </div>
                         <div class="row justify-content-center center-block" style="text-align: center;margin-top: 3%;">
-                            <div class="input-group col-4">
+                            <div class="input-group col-5">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputProveedor">Proveedor</label>
                                 </div>
-                                <select class="custom-select" id="inputProveedor" name="inputProveedor" required>
-
-                                    <%
-                                        for (ProductoProveedor p : new ProductoProveedorHandler().getAll()){
-                                            out.print("<option value=\"" + p.getId()+ "\" selected>" + p.getNombre() + "</option>");
-                                        }
-                                    %>
-                                </select>
+                                <input type="text" class="form-control" value="<%out.print(p.getProductoProveedor().getNombre());%>" name="inputProveedor" id="inputProveedor" disabled>
                             </div>
-                            <div class="input-group col-4">
+                            <div class="input-group col-5">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputFabricante">Fabricante</label>
                                 </div>
-                                <select class="custom-select" id="inputFabricante" name="inputFabricante" required>
-                                    <%
-                                        for (ProductoFabricante p : new ProductoFabricantesHandler().getAll()){
-                                            out.print("<option value=\"" + p.getId()+ "\" selected>" + p.getNombre() + "</option>");
-                                        }
-                                    %>
-                                </select>
+                                <input type="text" class="form-control" value="<%out.print(p.getProductoFabricante().getNombre());%>" name="inputFabricante" id="inputFabricante" disabled>
                             </div>
-                            <div class="input-group col-4">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="unidadMedida" >UnidadMedida</label>
-                            </div>
-                                <select class="custom-select" id="unidadMedida" name="unidadMedida" >
-                                    <option value="1" >1 - Unidad</option>
-                                    <%
-                                        for (Map.Entry<Integer, String> en : new ProductoUnidadMedidaHandler().getHash().entrySet() ){
-                                            if (en.getKey()!=1)
-                                                out.print("<option value=\"" + en.getKey()+ "\">" + en.getKey() + "- " + en.getValue() + "</option>");
-                                        }
-                                    %>
-                            </select>
-                        </div>
-
 
                         </div>
-                        <div class="row justify-content-center center-block" style="text-align: center;margin-top: 3%;">
-                            <div class="input-group col-4">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="precioProd">Precio</label>
-                                </div>
-                                <input type="text" class="form-control" placeholder="0.00" name="precioProd" id="precioProd" required>
-                            </div>
-                            <div class="input-group col-4">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="maxDscto">Max Dscto</label>
-                                </div>
-                                <input type="text" class="form-control" placeholder="10" name="maxDscto" id="maxDscto" required>
-                            </div>
-                        </div>
-                        <div class="row justify-content-center center-block" style="text-align: center;margin-top: 3%;">
-                            <div class="input-group col-3">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="deposito" >UnidadMedida</label>
-                                </div>
-                                <select class="custom-select" id="deposito" name="deposito" >
-                                    <%
-                                        for (Map.Entry<Integer, String> en : new ProductoDepositoHandler().getHash().entrySet() ){
-                                            if (en.getKey()!=1)
-                                                out.print("<option value=\"" + en.getKey()+ "\">" + en.getKey() + " - " + en.getValue() + "</option>");
-                                        }
-                                    %>
-                                </select>
-                            </div>
-                            <div class="input-group col-3">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="minStock">Stock Min</label>
-                                </div>
-                                <input type="text" class="form-control" placeholder="" name="minStock" id="minStock" required>
-                            </div>
-                            <div class="input-group col-3">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="actStock">Stock Act</label>
-                                </div>
-                                <input type="text" class="form-control" placeholder="" name="actStock" id="actStock" required>
-                            </div>
-                            <div class="input-group col-3">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="maxStock">Stock Max</label>
-                                </div>
-                                <input type="text" class="form-control" placeholder="" name="maxStock" id="maxStock" required>
-                            </div>
-                        </div>
+                    <div class="row justify-content-center center-block" style="text-align: center;margin-top: 3%;">
+                        <div class="justify-content-around center-block">
+                            <h3 style="margin-top: 2%">Listas de Precio</h3>
+                            <a data-toggle="collapse" href="#ListaPrecio" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" style="margin-bottom: 1%">Ver Precios</a>
+                            <br>
+                            <table class="table table-wrapper-scroll-y my-custom-scrollbar collapse multi-collapse col-12" id="ListaPrecio" style="margin-top: 1%; width: 140%; margin-right: 20%; height: 70%;">
+                                <thead>
+                                <tr class="thead-dark">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Fecha desde</th>
+                                    <th scope="col">Fecha hasta</th>
+                                    <th scope="col">Valor</th>
+                                    <th scope="col">Maximo Descuento</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <%
+                                    for (ProductoPrecio pp : new ProductoPrecioHandler().getAllByProducto(p)){
+                                        if (pp.getFechaHasta()!=null)
+                                            out.print("<tr class=\"table-secondary\">");
+                                        else
+                                            out.print("<tr class=\"table-light\">");
 
-                        <div class="d-flex justify-content-end" style=" margin-top: 3%">
-                            <button class="btn btn-success" type="submit" ><i class="fas fa-save"></i> Generar</button>
-                            <input type="text" class="form-control" value="<%out.print(e.getUsuario());%>" name="usrusr" id="usrusr" hidden>
+                                        out.print("<th scope=\"row\">"+pp.getId()+"</th>");
+                                        out.print("<td style=\"text-align:left\">" +pp.getNombre()+"</td>");
+                                        out.print("<td>"+pp.getFechaDesde()+"</td>");
+                                        if (pp.getFechaHasta()==null)
+                                            out.print("<td>-</td>");
+                                        else
+                                            out.print("<td>"+pp.getFechaHasta()+"</td>");
+                                        out.print("<td>"+pp.getValor()+"</td>");
+                                        out.print("<td>"+pp.getMaxDscto()+"</td>");
+
+                                    }%>
+                                </tbody>
+                            </table>
                         </div>
-                    </form>
+                    </div>
+                    <div class="row justify-content-center center-block" style="text-align: center;margin-top: 3%;">
+                        <div class="justify-content-around center-block">
+                            <h3 style="margin-top: 2%">Stock</h3>
+                            <a data-toggle="collapse" href="#stock" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" style="margin-bottom: 1%">Ver Precios</a>
+                            <br>
+                            <table class="table table-wrapper-scroll-y my-custom-scrollbar collapse multi-collapse col-12" id="stock" style="margin-top: 1%; width: 140%; margin-right: 20%; height: 70%;">
+                                <thead>
+                                <tr class="thead-dark">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Deposito</th>
+                                    <th scope="col">Stock Minimo</th>
+                                    <th scope="col">Stock Actual</th>
+                                    <th scope="col">Stock Maximo</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <%
+                                    for (ProductoStock ps : new ProductoStockHandler().getAllByProducto(p)){
+                                        if (ps.estaOK(ps))
+                                            out.print("<tr class=\"table-light\">");
+                                        else
+                                            out.print("<tr class=\"table-warning\">");
+
+                                        out.print("<th scope=\"row\">"+ps.getId()+"</th>");
+                                        out.print("<td style=\"text-align:left\">" +ps.getIdDeposito()+"</td>");
+                                        out.print("<td>"+ps.getStockMinimo()+"</td>");
+                                        out.print("<td>"+ps.getStockActual()+"</td>");
+                                        out.print("<td>"+ps.getStockMaximo()+"</td>");
+
+                                    }%>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-
 
         </div>
     </div>

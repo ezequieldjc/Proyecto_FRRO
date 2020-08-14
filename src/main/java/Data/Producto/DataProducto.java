@@ -1,10 +1,7 @@
-package Data;
+package Data.Producto;
 
-import Controladores.ProductoCategoriaHandler;
-import Controladores.ProductoFabricantesHandler;
-import Controladores.ProductoPrecioHandler;
-import Controladores.ProductoProveedorHandler;
-import Entities.Persona.PersonaEmpleado;
+import Controladores.Producto.*;
+import Data.DataConnectioniMac;
 import Entities.Productos.*;
 
 import java.sql.PreparedStatement;
@@ -19,13 +16,7 @@ public class DataProducto {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         String query = "select p.id, p.codigo, p.desc, p.estado, p.id, p.nombre, p.idFabricante, p.idProveedor, idCategoria" +
-                " from producto p " +
-                " inner join producto_fabricante pf " +
-                " on p.idFabricante = pf.id " +
-                " inner join producto_proveedor pp " +
-                " on p.idProveedor = p.id " +
-                " left join producto_precio ppr " +
-                " on p.id = ppr.idProducto;";
+                " from producto p ;";
         stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(query);
         rs = stmt.executeQuery();
         while(rs.next()){
@@ -40,6 +31,7 @@ public class DataProducto {
             p.setProductoProveedor(new ProductoProveedorHandler().getOneByID(new ProductoProveedor(rs.getInt("idProveedor"))));
             p.setProductoPrecioActivo(new ProductoPrecioHandler().getActivosByProducto(p));
             p.setProductoCategoria(new ProductoCategoriaHandler().getOneByID(new ProductoCategoria(rs.getInt("idCategoria"))));
+            p.setProductoStock(new ProductoStockHandler().getAllByProducto(p));
             productos.add(p);
         }
         return productos;
@@ -80,6 +72,7 @@ public class DataProducto {
             p.setProductoProveedor(new ProductoProveedorHandler().getOneByID(new ProductoProveedor(rs.getInt("idProveedor"))));
             p.setProductoPrecioActivo(new ProductoPrecioHandler().getActivosByProducto(p));
             p.setProductoCategoria(new ProductoCategoriaHandler().getOneByID(new ProductoCategoria(rs.getInt("idCategoria"))));
+            p.setProductoStock(new ProductoStockHandler().getAllByProducto(p));
             productos.add(p);
         }
         return productos;
@@ -103,6 +96,8 @@ public class DataProducto {
         ResultSet rs = stmt.getGeneratedKeys();
         if (rs != null && rs.next()) {
             producto.setId(rs.getInt(1));
+            producto = this.registrarPrecioInicial(producto);
+            producto = this.registrarStockInicial(producto);
         }
         return producto;
     }
@@ -125,5 +120,50 @@ public class DataProducto {
         return producto;
     }
 
+    public Producto registrarStockInicial (Producto producto) throws SQLException{
+        PreparedStatement stmt = null;
+
+        stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(
+                "insert into producto_producto_deposito (idProducto, idDeposito, idUnidad, stockMin, stockMax, stockActual) values (?,?,?,?,?,?); "
+                , PreparedStatement.RETURN_GENERATED_KEYS);
+        stmt.setInt(1,producto.getId());
+        stmt.setInt(2,producto.getProductoStock().get(0).getIdDeposito());
+        stmt.setInt(3,1);
+        stmt.setFloat(4,producto.getProductoStock().get(0).getStockMinimo());
+        stmt.setFloat(5,producto.getProductoStock().get(0).getStockMaximo());
+        stmt.setFloat(6,producto.getProductoStock().get(0).getStockActual());
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+        if (rs != null && rs.next()) {
+            producto.getProductoPrecioActivo().get(0).setId(rs.getInt(1));
+        }
+        return producto;
+    }
+
+    public Producto getOneByID (Producto producto)throws SQLException{
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(
+                "select p.id, p.codigo, p.desc, p.estado, p.id, p.nombre, p.idFabricante, p.idProveedor, idCategoria " +
+                        " from producto p where p.id = ?");
+        stmt.setInt(1,producto.getId());
+        rs = stmt.executeQuery();
+        if(rs.next()){
+            Producto p = new Producto();
+            p.setCodigo(rs.getString("p.codigo"));
+            p.setDesc(rs.getString("p.desc"));
+            p.setEstado(rs.getBoolean("p.estado"));
+            p.setId(rs.getInt("p.id"));
+            p.setNombre(rs.getString("p.nombre"));
+            p.setProductoFabricante(new ProductoFabricantesHandler().getOneByID(new ProductoFabricante(rs.getInt("idFabricante"))));
+            p.setProductoProveedor(new ProductoProveedorHandler().getOneByID(new ProductoProveedor(rs.getInt("idProveedor"))));
+            p.setProductoPrecioActivo(new ProductoPrecioHandler().getActivosByProducto(p));
+            p.setProductoCategoria(new ProductoCategoriaHandler().getOneByID(new ProductoCategoria(rs.getInt("idCategoria"))));
+            p.setProductoStock(new ProductoStockHandler().getAllByProducto(p));
+            return p;
+        }
+        return null;
+    }
 
 }

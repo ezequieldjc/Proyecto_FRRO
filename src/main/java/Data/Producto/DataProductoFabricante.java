@@ -1,5 +1,6 @@
-package Data;
+package Data.Producto;
 
+import Data.DataConnectioniMac;
 import Entities.Productos.ProductoFabricante;
 
 import java.sql.PreparedStatement;

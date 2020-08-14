@@ -9,6 +9,7 @@
 <%@ page import="Controladores.*" %>
 <%@ page import="Entities.Productos.Producto" %>
 <%@ page import="Entities.Productos.ProductoFabricante" %>
+<%@ page import="Controladores.Producto.ProductoFabricantesHandler" %>
 <%@ page errorPage="/404error.jsp"%>
 
 <%--

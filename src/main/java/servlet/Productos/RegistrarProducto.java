@@ -1,8 +1,7 @@
 package servlet.Productos;
 
 import Controladores.GrabarMensaje;
-import Controladores.ProductoCategoriaHandler;
-import Controladores.ProductoHandler;
+import Controladores.Producto.ProductoHandler;
 import Entities.Persona.PersonaEmpleado;
 import Entities.Productos.*;
 import Entities.System.SistemaMensaje;
@@ -39,7 +38,14 @@ public class RegistrarProducto extends HttpServlet {
         ArrayList<ProductoPrecio> precio = new ArrayList<ProductoPrecio>();
         precio.add(new ProductoPrecio(Float.valueOf(req.getParameter("precioProd")),Float.valueOf(req.getParameter("maxDscto"))));
         p.setProductoPrecioActivo(precio);
-
+        ProductoStock ps = new ProductoStock();
+        ps.setStockMinimo(Integer.valueOf(req.getParameter("minStock")));
+        ps.setIdDeposito(Integer.valueOf(req.getParameter("deposito")));
+        ps.setStockActual(Integer.valueOf(req.getParameter("actStock")));
+        ps.setStockMaximo(Integer.valueOf(req.getParameter("maxStock")));
+        ArrayList<ProductoStock> pss = new ArrayList<ProductoStock>();
+        pss.add(ps);
+        p.setProductoStock(pss);
 
         p = new ProductoHandler().registrarProducto(p);
 

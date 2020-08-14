@@ -8,6 +8,7 @@
 <%@ page import="Entities.Persona.PersonaPerfil" %>
 <%@ page import="Controladores.*" %>
 <%@ page import="Entities.Productos.Producto" %>
+<%@ page import="Controladores.Producto.ProductoHandler" %>
 <%@ page errorPage="/404error.jsp"%>
 
 <%--
@@ -195,8 +196,8 @@
                                 out.print("<td> <span class=\"badge badge-pill badge-success\">Habilitado</span></td>");
                             else
                                 out.print("<td> <span class=\"badge badge-pill badge-danger\">Desabilitado</span></td>");
-                            out.print("<form name=\"usr\" method=\"get\" action=\"productoView.jsp\">");
-                            out.print("<input type=\"hidden\" name=\"usr\" value=\""+p.getId()+"\">");
+                            out.print("<form name=\"usr\" method=\"get\" action=\"producto.jsp\">");
+                            out.print("<input type=\"hidden\" name=\"prod\" value=\""+p.getId()+"\">");
                             out.print("<td><button class=\"btn btn-primary\"><i class=\"fas fa-user-edit\"></i> </button></td>");
                             out.print("</form>");
                         }%>

@@ -1,5 +1,6 @@
-package Data;
+package Data.Producto;
 
+import Data.DataConnectioniMac;
 import Entities.Productos.ProductoFabricante;
 import Entities.Productos.ProductoPrecio;
 import Entities.Productos.ProductoProveedor;

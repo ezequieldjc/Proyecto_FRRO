@@ -57,7 +57,7 @@
             //request.getRequestDispatcher("login.jsp").forward(request,response);
 
         } else
-            e.setNotificaciones(new BuscarNotificaciones().getAllByUsuario(e));
+            e.setNotificaciones(new BuscarNotificaciones().getUnreadByUsuario(e));
     }
 
 %>
