@@ -20,7 +20,7 @@ public class TestNotificaciones {
 
         for(Notificacion n : e.getNotificaciones()){
 
-            System.out.println(n.getFechaCreacion());
+            System.out.println(n.getPrioridad());
         }
 
 

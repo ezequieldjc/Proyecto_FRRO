@@ -248,13 +248,13 @@
                                     for (Notificacion n : e.getNotificaciones()){
                                         switch (n.getPrioridad()){
                                             case 1:
-                                                out.print("<tr class=\"clickable-row bg-success\" data-href=\"notificacion.jsp?id=" + n.getId() + "\" >");
+                                                out.print("<tr class=\"clickable-row bg-success\" data-href=\"notificaciones.jsp?id=" + n.getId() + "\" >");
                                                 break;
                                             case 2:
-                                                out.print("<tr class=\"clickable-row bg-warning\" data-href=\"notificacion.jsp?id=" + n.getId() + "\" >");
+                                                out.print("<tr class=\"clickable-row bg-warning\" data-href=\"notificaciones.jsp?id=" + n.getId() + "\" >");
                                                 break;
                                             default:
-                                                out.print("<tr class=\"clickable-row bg-danger\" data-href=\"notificacion.jsp?id=" + n.getId() + "\" >");
+                                                out.print("<tr class=\"clickable-row bg-danger\" data-href=\"notificaciones.jsp?id=" + n.getId() + "\" >");
                                                 break;
                                         }
                                         out.print("<th scope=\"row\">"+idd+"</th>");
@@ -273,7 +273,7 @@
                                 %>
                                 </tbody>
                             </table>
-                            <a href="notificacion.jsp" class="align-items-center">Ver todas! </a>
+                            <a href="notificaciones.jsp" class="align-items-center">Ver todas! </a>
                         </div>
 
                     </div>

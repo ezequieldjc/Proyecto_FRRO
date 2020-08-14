@@ -37,8 +37,14 @@
 				<h1>4<span></span>4</h1>
 			</div>
 			<h2>Oops! Page Not Be Found</h2>
-			Ha ocurrido un error. El area de sistemas esta evaluado su situacion. Puede enviarle un
-			email si asi lo prefiere desde <p href="mailto:sistemas@mybusiness.com" style="color: #0062cc">aqui</p>.
+			Ha ocurrido un error. El area de sistemas esta evaluando su situacion.
+			<%
+				Notificacion n = new Notificacion();
+				n.setCategoria(new NotificacionCategoria(4));
+				n.setMensaje("Ocurrio un error 404!");
+				n.setPrioridad(1);
+				new GrabarNotificacion(n);
+			%>
 			<a href="login.jsp">Volver a pagina Principal</a>
 		</div>
 	</div>

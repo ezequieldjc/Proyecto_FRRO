@@ -26,4 +26,23 @@ public class BuscarNotificaciones {
             return null;
         }
     }
+
+    public Notificacion getOneByID(PersonaEmpleado e, Notificacion n ){
+        try {
+            return new DataNotificacion().getOneByID(e,n);
+        } catch (SQLException throwables) {
+            new GrabarNotificacion(new Notificacion(10, "Excepcion ocurrida en "+this.getClass() +"."+this.getClass().getEnclosingMethod().getName(),
+                    2,e.getUsuario()));
+            return null;
+        }
+    }
+
+    public void setNotificacionAsRead(PersonaEmpleado e , Notificacion n){
+        try {
+            new DataNotificacion().setNotificacionAsRead(e,n);
+        } catch (SQLException throwables) {
+            new GrabarNotificacion(new Notificacion(10, "Excepcion ocurrida en "+this.getClass() +"."+this.getClass().getEnclosingMethod().getName(),
+                    2,e.getUsuario()));
+        }
+    }
 }

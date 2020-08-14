@@ -100,7 +100,8 @@ public class DataNotificacion {
                         "on snp.idNotificacion = sn.id and snp.idEmpleado=p.id " +
                         "left join persona_empleado pee " +
                         "on sn.idEmpleado = pee.id " +
-                        "where p.id = ?;";
+                        "where p.id = ? " +
+                        "order by `sn`.`id`;";
         stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(query);
         stmt.setInt(1,e.getId());
         rs = stmt.executeQuery();
@@ -113,6 +114,55 @@ public class DataNotificacion {
                     em, rs.getInt("estado"), rs.getTimestamp("fechaCreacion")));
         }
         return notis;
+    }
+
+    public Notificacion getOneByID(PersonaEmpleado e, Notificacion n) throws SQLException {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String query =
+                "select `sn`.`id` AS `id`, " +
+                        "`p`.`id` AS `idEmpleado`, " +
+                        "`p`.`usuario` AS `usuarioEmpleado`, " +
+                        "`snc`.`id` AS `idCategoria`, " +
+                        "`snc`.`codigo` AS `codigoCategoria`, " +
+                        "`snc`.`nombre` AS `nombre`, " +
+                        "`sn`.`texto` AS `texto`, " +
+                        "`sn`.`prioridad` AS `prioridad`, " +
+                        "`sn`.`link` AS `link`, " +
+                        "`snp`.`estado` AS `estado`, " +
+                        "`sn`.`fechaCreacion` AS `fechaCreacion`, " +
+                        "`pee`.`id` AS `idResponsable`, " +
+                        "`pee`.`usuario` AS `usuarioResponsable`, " +
+                        "`pee`.`img` AS `img` " +
+                        "from persona_empleado p " +
+                        "inner join persona_perfil pp " +
+                        "on p.idPerfil = pp.id " +
+                        "left join sistema_personaPerfil_notificacionCategoria spn " +
+                        "on spn.idPersonaPerfil = pp.id " +
+                        "left join sistema_notificacion_categoria snc " +
+                        "on snc.id = spn.idNotificacionCategoria " +
+                        "inner join sistema_notificacion sn " +
+                        "on sn.idCategoria = snc.id " +
+                        "left join sistema_notificacion_persona snp " +
+                        "on snp.idNotificacion = sn.id and snp.idEmpleado=p.id " +
+                        "left join persona_empleado pee " +
+                        "on sn.idEmpleado = pee.id " +
+                        "where p.id = ? and sn.id = ? " +
+                        "order by `sn`.`id`;";
+        stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(query);
+        stmt.setInt(1,e.getId());
+        stmt.setInt(2,n.getId());
+        rs = stmt.executeQuery();
+        if (rs.next()){
+            //int id, NotificacionCategoria categoria, String mensaje, String urlDestino, int prioridad
+            PersonaEmpleado em = new PersonaEmpleado(rs.getInt("idResponsable"), rs.getString("usuarioResponsable"));
+            em.setImg(rs.getString("img"));
+            return new Notificacion(rs.getInt("id"), new NotificacionCategoria(rs.getInt("idCategoria"),
+                    rs.getString("codigoCategoria")), rs.getString("texto"), rs.getString("link"), rs.getInt("prioridad"),
+                    em, rs.getInt("estado"), rs.getTimestamp("fechaCreacion"));
+        }
+        return null;
     }
 
     //Este metodo no deberia utilizarse si se pudiese utilizar la vista 'notificaciones'
@@ -162,6 +212,19 @@ public class DataNotificacion {
         }
         return notis;
     }
+
+    public void setNotificacionAsRead (PersonaEmpleado personaEmpleado ,Notificacion notificacion) throws SQLException{
+        PreparedStatement stmt = null;
+
+        stmt = DataConnectioniMac.getInstancia().getConn().prepareStatement(
+                "update sistema_notificacion_persona set estado = 1 where idNotificacion = ? and idEmpleado = ?; ");
+        stmt.setInt(1, notificacion.getId());
+        stmt.setInt(2, personaEmpleado.getId());
+
+        stmt.executeUpdate();
+
+    }
+
 
     /*
     Este es el metodo que deberia utilizarse si el trigger y la vista funcionaran en google cloud
