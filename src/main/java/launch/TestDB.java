@@ -1,22 +1,19 @@
-package UTest;
+package launch;
 
 import Controladores.BuscarGlobalConfig;
 import Data.DataPersonaEmpleado;
 import Entities.Persona.PersonaEmpleado;
 import Entities.System.SistemaGlobalConfig;
-import junit.framework.TestCase;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class TestUserID extends TestCase {
+public class TestDB {
 
+    public void main (String args[]){
 
-    public void testUserID(){
-        //Este test revisa que todos los user de la tabla persona_empleado sean coherentes al pattern establecido para los mismos
-        //Este test esta comentado ya que falta la configuracion en la db
-        /*boolean flag = true;
+        boolean flag = true;
         String pattern = new BuscarGlobalConfig().buscarGlobalConfigByCodigo(new SistemaGlobalConfig("USR_PTRN")).getValorAtributo();
         try {
             ArrayList<PersonaEmpleado> empleados =  new DataPersonaEmpleado().getAll();
@@ -27,9 +24,6 @@ public class TestUserID extends TestCase {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        assertEquals(true, flag);*/
-        assertEquals(true, true);
+
     }
-
-
 }

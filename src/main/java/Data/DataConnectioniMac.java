@@ -10,12 +10,12 @@ public class DataConnectioniMac {
     //private String driver = "com.mysql.jdbc.Driver";
 
     //Google Cloud
-    private String host = "35.247.241.104";
-    private String db = "proyecto-mysql";
+    //private String host = "35.247.241.104";
+    //private String db = "proyecto-mysql";
 
     //Local
-    //private String host = "localhost";
-    //private String db = "PROYECTO_JAVA";
+    private String host = "localhost";
+    private String db = "PROYECTO_JAVA";
 
     private String port = "3306";
     private String user = "root";
