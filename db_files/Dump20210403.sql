@@ -1,5 +1,4 @@
 -- MySQL dump 10.13  Distrib 8.0.20, for macos10.15 (x86_64)
---
 -- Host: localhost    Database: PROYECTO_JAVA
 -- ------------------------------------------------------
 -- Server version	8.0.20
